@@ -40,8 +40,6 @@ module.exports = {
       {
         //以.css结尾的文件
         test: /\.css$/,
-        //排除node_modules文件夹 不打包它
-        exclude: path.join(__dirname, "node_modules"),
         //从右到左执行 对css文件先用cssloader 然后用styleloader
         use: ["style-loader", "css-loader"],
       },

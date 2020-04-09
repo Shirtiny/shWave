@@ -1,3 +1,27 @@
+html,
+body,
 #root {
-    background-image: url("tengnai.png");
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif;
+  line-height: 1.5;
+  height: 100%;
+  overflow: hidden;
+  background: #c0d9d9;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
 }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  height: 600px;
+}
+
+
