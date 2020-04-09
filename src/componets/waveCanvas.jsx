@@ -44,6 +44,15 @@ const WaveCanvas = (props) => {
           gap * index - fontSize * pixelRatio * 2 + pixelRatio,
           fontTop * pixelRatio
         );
+      } else if (index % 5 === 0) {
+        ctx.fillRect(
+          index * gap,
+          0,
+          pixelRatio,
+          (fontHeight * pixelRatio) / 1.5
+        );
+      } else {
+        ctx.fillRect(index * gap, 0, pixelRatio, (fontHeight * pixelRatio) / 3);
       }
     }
   };
@@ -62,17 +71,23 @@ const WaveCanvas = (props) => {
     if (waveCanvas === null || container === null) return;
     console.log("绘制");
     const { height, width } = container;
-    waveCanvas.width = width;
-    waveCanvas.height = height;
-    waveCanvas.style.width = "100%";
-    waveCanvas.style.height = "100%";
+    waveCanvas.width = width * pixelRatio;
+    waveCanvas.height = height * pixelRatio;
     //绘制背景
     painter.drawBackground(waveCanvas, ctx, backgroundColor);
     //绘制尺子
     drawRuler(waveCanvas, ctx);
   }, [container, waveCanvas]);
 
-  return <canvas ref={$canvas}></canvas>;
+  return (
+    <canvas
+      ref={$canvas}
+      css={css`
+        height: 100%;
+        width: 100%;
+      `}
+    ></canvas>
+  );
 };
 
 export default WaveCanvas;
