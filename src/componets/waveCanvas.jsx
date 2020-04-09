@@ -1,36 +1,41 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
+import painter from "../common/painter";
 
 const WaveCanvas = (props) => {
-  const { shwave } = props;
+  const { container, pixelRatio, duration, backgroundColor } = props;
+
   const [waveCanvas, setWaveCanvas] = useState(null);
   const [ctx, setCtx] = useState(null);
 
-  //绘制背景
-  const drawBack = () => {
+  const drawRuler = () => {
     if (!waveCanvas && !ctx) return;
     const { width, height } = waveCanvas;
-    //清空一个矩形
-    ctx.clearRect(0, 0, width, height);
-    //设置填充绘画的颜色
-    ctx.fillStyle = "#529393";
-    //填充出一个矩形
-    ctx.fillRect(0, 0, width, height);
+    const fontSize = 11;
+    const fontHeight = 15;
+    const fontTop = 30;
+    //字体
+    ctx.font = `${fontSize * pixelRatio}px Arial`;
+    //颜色
+    ctx.fillStyle = "#fff";
   };
 
-  useEffect(() => {
-    const canvas = document.querySelector("#waveCanvas");
-    setWaveCanvas(canvas);
-    setCtx(canvas.getContext("2d"));
-    drawBack();
-    console.log("useEffect", waveCanvas);
-  });
+  //callback-refs
+  const $canvas = useCallback((canvas) => {
+    if (canvas !== null) {
+      setWaveCanvas(canvas);
+      const ctx = canvas.getContext("2d");
+      setCtx(ctx);
+      //绘制背景
+      painter.drawBackground(canvas, ctx, backgroundColor);
+      console.log("Callback ref waveCanvas", canvas);
+    }
+  }, []);
 
-  console.log(shwave);
   return (
     <canvas
-      id="waveCanvas"
+      ref={$canvas}
       css={css`
         height: 100%;
         width: 100%;
