@@ -1,0 +1,48 @@
+{
+  "name": "shwave",
+  "version": "1.2.0",
+  "main": "dist/shwave.min.js",
+  "author": {
+    "name": "Shirtiny"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --config webpack.dev.config.js",
+    "pro": "webpack --config webpack.product.config.js",
+    "start": "webpack-dev-server --config webpack.dev.config.js --open"
+  },
+  "keywords": [
+    "react",
+    "react library",
+    "wave",
+    "js",
+    "canvas"
+  ],
+  "description": "wave audio",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-react": "^7.9.4",
+    "@emotion/babel-preset-css-prop": "^10.0.27",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^3.5.1",
+    "file-loader": "^6.0.0",
+    "html-loader": "^1.1.0",
+    "html-webpack-plugin": "^4.0.4",
+    "react": "^16.13.1",
+    "react-hot-loader": "^4.12.20",
+    "style-loader": "^1.1.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "dependencies": {
+    "@emotion/core": "^10.0.28",
+    "framer-motion": "^1.10.3",
+    "react-dom": "npm:@hot-loader/react-dom"
+  }
+}
