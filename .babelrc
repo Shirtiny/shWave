@@ -2,5 +2,5 @@
   //第三个是配置emotion语法的转译 ,"@emotion/babel-preset-css-prop"
   "presets": ["@babel/preset-env", "@babel/preset-react"],
   //热加载 不用刷新浏览器
-  "plugins": ["react-hot-loader/babel"]
+  // "plugins": ["react-hot-loader/babel"]
 }

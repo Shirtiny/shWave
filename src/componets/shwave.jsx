@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import WaveCanvas from "./waveCanvas";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 
-const pixelRatio = window.devicePixelRatio;
 
 const ShWave = () => {
+  const pixelRatio = window.devicePixelRatio;
   const [shwave, setShwave] = useState(null);
 
   useEffect(() => {

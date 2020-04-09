@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { hot } from "react-hot-loader/root";
+// import { hot } from "react-hot-loader/root";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import ShWave from "./componets/shwave";
@@ -15,4 +15,5 @@ const App = () => {
   );
 };
 
-export default hot(App);
+// export default hot(App);
+export default App;
