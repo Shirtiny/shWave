@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
+    "duration-time-conversion": "^1.0.1",
     "framer-motion": "^1.10.3",
     "react-dom": "npm:@hot-loader/react-dom"
   }

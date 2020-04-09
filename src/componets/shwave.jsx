@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import WaveCanvas from "./waveCanvas";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
@@ -16,13 +16,20 @@ const ShWave = ({ duration = 0 }) => {
   const $shwave = useCallback((wave) => {
     if (wave !== null) {
       console.log("callback ref", wave);
-      const { clientHeight, clientWidth } = wave;
       setShwave(wave);
-      setContainer({
-        height: clientHeight,
-        width: clientWidth,
-      });
+      updateContainer();
     }
+  }, []);
+
+  const updateContainer = useCallback(() => {
+    const shwave = document.querySelector(".shwave");
+    if (shwave === null) return;
+    console.log("更新container");
+    const { clientHeight, clientWidth } = shwave;
+    setContainer({
+      height: clientHeight,
+      width: clientWidth,
+    });
   }, []);
 
   return (
@@ -40,8 +47,9 @@ const ShWave = ({ duration = 0 }) => {
       <WaveCanvas
         container={container}
         pixelRatio={pixelRatio}
-        duration={60}
+        duration={15}
         backgroundColor={"#529393"}
+        currentTime={0}
       />
     </div>
   );

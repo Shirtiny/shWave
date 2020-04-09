@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import DT from 'duration-time-conversion';
 
 function useClientRect(fn) {
   const [rect, setRect] = useState(null);
@@ -10,3 +11,11 @@ function useClientRect(fn) {
   }, []);
   return [rect, ref];
 }
+
+export function durationToTime(duration = 0) {
+  return DT.d2t(duration.toFixed(3));
+}
+
+export default {
+  durationToTime,
+};

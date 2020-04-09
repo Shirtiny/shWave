@@ -2264,6 +2264,11 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
+duration-time-conversion@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/duration-time-conversion/-/duration-time-conversion-1.0.1.tgz#f39288ac0ac91b1850cb63716a39c448b2071863"
+  integrity sha512-LtE+tBHJ5Pqvmm3uLT4Kc8RnYJnZL2w1tIYxuotP8aemEF4ekoAapl+NdXYPke6bMgMTxpFIKBk2yCnWOVDyIw==
+
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
