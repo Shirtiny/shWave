@@ -14,7 +14,7 @@ const App = () => {
           height: 150px;
         `}
       >
-        <ShWave duration={15} backgroundColor={"#529393"} currentTime={1000} />
+        <ShWave duration={15} backgroundColor={"#529393"} currentTime={1000} throttleWait={2300}/>
       </div>
     </Fragment>
   );

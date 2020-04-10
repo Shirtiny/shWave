@@ -70,7 +70,7 @@ class ShWave extends Component {
   onResize = common.throttle(() => {
     this.updateCanvas();
     this.draw();
-  }, 500);
+  }, this.props.throttleWait || 300);
 
   componentDidMount() {}
 

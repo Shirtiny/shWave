@@ -18,11 +18,11 @@ export function durationToTime(duration = 0) {
 }
 
 //节流函数
-export function throttle(fn, wait, option = {}) {
+export function throttle(fn, wait, option = { trailing: true }) {
   return _.throttle(fn, wait, option);
 }
 
 export default {
   durationToTime,
-  throttle
+  throttle,
 };
