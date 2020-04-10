@@ -31,7 +31,7 @@ function getGap(width, length) {
 //获得开始时间
 function getBegin(currentTime, duration) {
   //起始时间
-  return Math.floor(currentTime / duration) * duration;
+  return Math.floor(currentTime / 1000 / duration) * duration;
 }
 
 /**
@@ -106,8 +106,9 @@ export const drawCursor = (
   ctx.fillStyle = color;
   const length = getLength(duration);
   const gap = getGap(width, length);
+  const begin = getBegin(currentTime, duration);
   ctx.fillRect(
-    (currentTime / 1000) * pixelRatio * 10 * gap,
+    (currentTime / 1000 - begin) * pixelRatio * 10 * gap,
     0,
     pixelRatio,
     height
