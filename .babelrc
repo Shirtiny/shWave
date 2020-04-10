@@ -1,6 +1,7 @@
 {
   //第三个是配置emotion语法的转译 ,"@emotion/babel-preset-css-prop"
   "presets": ["@babel/preset-env", "@babel/preset-react"],
-  //热加载 不用刷新浏览器
-  // "plugins": ["react-hot-loader/babel"]
+  //热加载 不用刷新浏览器 "react-hot-loader/babel"
+  //@babel/plugin-proposal-class-properties 定义类的属性可以直接： state ={}
+  "plugins": ["@babel/plugin-proposal-class-properties"]
 }

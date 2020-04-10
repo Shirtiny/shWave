@@ -9,7 +9,7 @@ const App = () => {
     <Fragment>
       <div className="container">内容</div>
       <div>
-        <ShWave />
+        <ShWave duration={15} backgroundColor={"#529393"} currentTime={0} />
       </div>
     </Fragment>
   );
