@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import WaveCanvas from "./waveCanvas";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
+import logger from "../common/logger"
 
 const ShWave = ({ duration = 0 }) => {
   const pixelRatio = window.devicePixelRatio;
@@ -15,7 +16,7 @@ const ShWave = ({ duration = 0 }) => {
   //callback-refs
   const $shwave = useCallback((wave) => {
     if (wave !== null) {
-      console.log("callback ref", wave);
+      logger.clog("callback ref", wave);
       setShwave(wave);
       updateContainer();
     }
@@ -24,13 +25,13 @@ const ShWave = ({ duration = 0 }) => {
   const updateContainer = useCallback(() => {
     const shwave = document.querySelector(".shwave");
     if (shwave === null) return;
-    console.log("更新container");
+    logger.clog("更新container");
     const { clientHeight, clientWidth } = shwave;
     setContainer({
       height: clientHeight,
       width: clientWidth,
     });
-  }, []);
+  }, [shwave]);
 
   return (
     <div
