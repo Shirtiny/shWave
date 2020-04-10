@@ -56,7 +56,14 @@ class ShWave extends Component {
     //绘制尺子
     painter.drawRuler(waveCanvas, ctx, pixelRatio, duration, currentTime);
     //绘制指针
-    painter.drawCursor(waveCanvas,ctx,pixelRatio,duration,currentTime,"blue")
+    painter.drawCursor(
+      waveCanvas,
+      ctx,
+      pixelRatio,
+      duration,
+      currentTime,
+      "blue"
+    );
   };
 
   //resize
@@ -76,7 +83,8 @@ class ShWave extends Component {
         css={css`
           position: relative;
           display: flex;
-          height: 200px;
+          height: 100%;
+          width: 100%;
           // background-color: #529393;
           background-color: #fff;
         `}

@@ -8,7 +8,12 @@ const App = () => {
   return (
     <Fragment>
       <div className="container">内容</div>
-      <div>
+      <div
+        css={css`
+          position: relative;
+          height: 150px;
+        `}
+      >
         <ShWave duration={15} backgroundColor={"#529393"} currentTime={1000} />
       </div>
     </Fragment>
