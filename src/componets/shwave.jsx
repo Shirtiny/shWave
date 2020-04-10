@@ -48,7 +48,7 @@ class ShWave extends Component {
     const { waveCanvas } = this.state;
     const { duration, backgroundColor, currentTime } = this.props;
     const ctx = waveCanvas && waveCanvas.getContext("2d");
-    logger.clog("绘制");
+    logger.clog("绘制",currentTime);
     if (!waveCanvas || !ctx) return;
     //绘制背景
     painter.drawBackground(waveCanvas, ctx, backgroundColor);

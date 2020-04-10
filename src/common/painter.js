@@ -31,7 +31,7 @@ function getGap(width, length) {
 //获得开始时间
 function getBegin(currentTime, duration) {
   //起始时间
-  return Math.floor(currentTime / 1000 / duration) * duration;
+  return Math.floor(currentTime / duration) * duration;
 }
 
 /**
@@ -90,7 +90,7 @@ export const drawRuler = (
  * @param {*} ctx 画笔
  * @param {*} pixelRatio 像素比
  * @param {*} duration 单位s
- * @param {*} currentTime 当前时间，单位ms
+ * @param {*} currentTime 当前时间，单位s
  * @param {*} color 指针颜色
  */
 export const drawCursor = (
@@ -108,7 +108,7 @@ export const drawCursor = (
   const gap = getGap(width, length);
   const begin = getBegin(currentTime, duration);
   ctx.fillRect(
-    (currentTime / 1000 - begin) * pixelRatio * 10 * gap,
+    (currentTime - begin) * pixelRatio * 10 * gap,
     0,
     pixelRatio,
     height
