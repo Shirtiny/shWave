@@ -83,7 +83,7 @@ class ShWave extends Component {
   componentDidMount() {}
 
   render() {
-    const { currentTime } = this.props;
+    const { currentTime, url } = this.props;
     return (
       <div
         ref={this.$shwave}
@@ -103,6 +103,7 @@ class ShWave extends Component {
           updateCanvas={this.updateCanvas}
           draw={this.draw}
           currentTime={currentTime}
+          url={url}
         />
       </div>
     );
