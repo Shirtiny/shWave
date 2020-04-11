@@ -21,7 +21,7 @@ const Parse = ({ url }) => {
         reader = res.body.getReader();
         // 8位无符号整型数组 Uint8Array与可读流ReadableStream 的协同用法。
         let data = new Uint8Array();
-        // "done"是一个布尔型，"value"是一个Unit8Array
+        //使用reader读取二进制数据  "done"是一个布尔型，"value"是一个Unit8Array
         reader.read().then(function read({ done, value }) {
           if (done) {
             logger.clog("载入完成：", data);
@@ -29,6 +29,7 @@ const Parse = ({ url }) => {
             return;
           }
           logger.clog("载入ing：", data);
+          //合并两个unit8数组 (累加data
           data = common.merge(data, value);
           //递归
           return reader.read().then(read);
