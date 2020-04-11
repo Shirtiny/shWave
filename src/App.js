@@ -18,7 +18,11 @@ const App = () => {
           width: 600px;
         `}
       >
-        <VideoPlayer player={player} setPlayer={setPlayer} setCurrentTime={setCurrentTime} />
+        <VideoPlayer
+          player={player}
+          setPlayer={setPlayer}
+          setCurrentTime={setCurrentTime}
+        />
       </div>
       <div
         css={css`
@@ -29,6 +33,8 @@ const App = () => {
         <ShWave
           duration={15}
           backgroundColor={"#529393"}
+          pointerColor={"#ddd"}
+          // pointerWidth={2}
           currentTime={currentTime}
           throttleWait={2300}
         />

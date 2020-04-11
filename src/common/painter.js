@@ -25,7 +25,7 @@ function getLength(duration) {
 
 //获取间距 实际宽度px / 时长 * 10
 function getGap(width, length) {
-  return width / length;
+  return Number(width / length).toFixed(3);
 }
 
 //获得开始时间
@@ -93,13 +93,14 @@ export const drawRuler = (
  * @param {*} currentTime 当前时间，单位s
  * @param {*} color 指针颜色
  */
-export const drawCursor = (
+export const drawPointer = (
   canvas,
   ctx,
   pixelRatio = 1,
   duration = 15,
   currentTime = 0,
-  color
+  color,
+  pointerWidth = 2,
 ) => {
   if (!canvas || !ctx) return;
   const { width, height } = canvas;
@@ -107,16 +108,21 @@ export const drawCursor = (
   const length = getLength(duration);
   const gap = getGap(width, length);
   const begin = getBegin(currentTime, duration);
+  logger.clog(
+    "指针位置",
+    Number((currentTime - begin) * pixelRatio * 10 * gap).toFixed(3)
+  );
   ctx.fillRect(
-    (currentTime - begin) * pixelRatio * 10 * gap,
+    Number((currentTime - begin) * pixelRatio * 10 * gap).toFixed(3),
     0,
-    pixelRatio,
+    pointerWidth * pixelRatio,
     height
   );
+  
 };
 
 export default {
   drawBackground,
   drawRuler,
-  drawCursor,
+  drawPointer,
 };

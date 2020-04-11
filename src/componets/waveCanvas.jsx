@@ -12,6 +12,7 @@ const WaveCanvas = ({
   draw,
   currentTime,
 }) => {
+
   useEffect(() => {
     logger.clog("useEffect waveCanvas", waveCanvas);
     if (waveCanvas === null) return;

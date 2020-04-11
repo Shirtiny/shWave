@@ -46,23 +46,31 @@ class ShWave extends Component {
   // 绘画
   draw = () => {
     const { waveCanvas } = this.state;
-    const { duration, backgroundColor, currentTime } = this.props;
+    const {
+      duration,
+      backgroundColor,
+      currentTime,
+      pointerColor,
+      pointerWidth,
+    } = this.props;
+    //像素比
+    const pixelRatio = window.devicePixelRatio;
     const ctx = waveCanvas && waveCanvas.getContext("2d");
-    logger.clog("绘制",currentTime);
+    logger.clog("绘制", currentTime);
     if (!waveCanvas || !ctx) return;
     //绘制背景
     painter.drawBackground(waveCanvas, ctx, backgroundColor);
-    const pixelRatio = window.devicePixelRatio;
     //绘制尺子
     painter.drawRuler(waveCanvas, ctx, pixelRatio, duration, currentTime);
     //绘制指针
-    painter.drawCursor(
+    painter.drawPointer(
       waveCanvas,
       ctx,
       pixelRatio,
       duration,
       currentTime,
-      "blue"
+      pointerColor,
+      pointerWidth
     );
   };
 
