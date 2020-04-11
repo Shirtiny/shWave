@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useCallback } from "react";
 // import { hot } from "react-hot-loader/root";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
@@ -8,6 +8,25 @@ import VideoPlayer from "./componets/videoPlayer";
 const App = () => {
   const [player, setPlayer] = useState(null);
   const [currentTime, setCurrentTime] = useState(0);
+  const [url, setUrl] = useState("");
+
+  const handleVideoFile = useCallback(
+    (e) => {
+      URL.revokeObjectURL(url);
+      const file = e.currentTarget.files[0];
+      const videoUrl = URL.createObjectURL(file);
+      setUrl(videoUrl);
+      const videoRegx = /^video\/(mp4|x-(flv))+$/;
+      const found = file.type.match(videoRegx);
+      const videoType =
+        found && found[2] ? found[2] + "Custom" : found ? found[1] : "";
+      player.switchVideo({
+        url: videoUrl,
+        type: videoType,
+      });
+    },
+    [url, setUrl, player]
+  );
 
   return (
     <Fragment>
@@ -19,9 +38,16 @@ const App = () => {
         `}
       >
         <VideoPlayer
+          url={url}
           player={player}
           setPlayer={setPlayer}
           setCurrentTime={setCurrentTime}
+        />
+        <input
+          className="uploadVideo"
+          type="file"
+          name="file"
+          onChange={handleVideoFile}
         />
       </div>
       <div
@@ -34,9 +60,10 @@ const App = () => {
           duration={15}
           backgroundColor={"#529393"}
           pointerColor={"#ddd"}
-          // pointerWidth={2}
+          pointerWidth={3}
           currentTime={currentTime}
           throttleWait={2300}
+          url={url}
         />
       </div>
     </Fragment>

@@ -27,7 +27,7 @@ class VideoPlayer extends Component {
   };
 
   render() {
-    const videoUrl = "https://sh-rep.oss-cn-hongkong.aliyuncs.com/mll.mp4";
+    // const videoUrl = "https://sh-rep.oss-cn-hongkong.aliyuncs.com/mll.mp4";
     return (
       <div id="playerBox" className="box">
         <DPlayer
@@ -36,7 +36,7 @@ class VideoPlayer extends Component {
           style={{ resize: "both" }}
           options={{
             video: {
-              url: videoUrl,
+              url: "",
               customType: {
                 flvCustom: function (videoElement, player) {
                   logger.clog("支持flv");
