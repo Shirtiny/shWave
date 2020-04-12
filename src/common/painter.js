@@ -1,5 +1,4 @@
 import common from "./common";
-import logger from "./logger";
 
 /**
  *@description 绘制背景
@@ -62,7 +61,6 @@ export const drawRuler = (
   const length = getLength(duration);
   //每格间距
   const gap = getGap(width, length);
-  logger.clog("宽 长 每格间距像素 像素比", width, length, gap, pixelRatio);
   //起始时间
   const begin = getBegin(currentTime, duration);
   let second = -1;
@@ -108,10 +106,6 @@ export const drawPointer = (
   const length = getLength(duration);
   const gap = getGap(width, length);
   const begin = getBegin(currentTime, duration);
-  logger.clog(
-    "指针位置",
-    Number((currentTime - begin) * pixelRatio * 10 * gap).toFixed(3)
-  );
   ctx.fillRect(
     Number((currentTime - begin) * pixelRatio * 10 * gap).toFixed(3),
     0,
@@ -138,7 +132,6 @@ const drawWave = (
   waveColor = "#fbf8f86b",
   padding = 0
 ) => {
-  logger.clog("绘制音频");
   const { width, height } = canvas;
   const begin = getBegin(currentTime, duration);
   const length = getLength(duration);
@@ -194,10 +187,6 @@ const drawWaveD = (
   const length = getLength(duration);
   const gap = getGap(width, length);
   const begin = getBegin(currentTime, duration);
-  logger.clog(
-    "指针位置",
-    Number((currentTime - begin) * pixelRatio * 10 * gap).toFixed(3)
-  );
   ctx.fillRect(
     Number((currentTime - begin) * pixelRatio * 10 * gap).toFixed(3),
     0,
@@ -207,7 +196,6 @@ const drawWaveD = (
 };
 
 export const drawWaveInThrottle = common.throttle((canvas, ctx) => {
-  logger.clog("绘图节流", canvas, ctx);
   drawWaveD(canvas, ctx);
 }, 2000);
 

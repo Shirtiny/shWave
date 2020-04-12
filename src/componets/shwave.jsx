@@ -2,7 +2,6 @@ import React, { Component, useState, useCallback, useEffect } from "react";
 import WaveCanvas from "./waveCanvas";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
-import logger from "../common/logger";
 import common from "../common/common";
 import painter from "../common/painter";
 
@@ -19,7 +18,6 @@ class ShWave extends Component {
   //callback-refs 初始化时 获取canvas对象
   $canvas = (waveCanvas) => {
     if (waveCanvas !== null) {
-      logger.clog("更新canvas，并且重设canvas宽高", waveCanvas);
       this.setState({ waveCanvas }, () => {
         this.updateCanvas();
       });
@@ -27,6 +25,7 @@ class ShWave extends Component {
       window.addEventListener("resize", this.onResize);
     } else {
       //取消resize监听
+      
       window.removeEventListener("resize", this.onResize);
     }
   };
@@ -36,7 +35,6 @@ class ShWave extends Component {
     const { shwave, waveCanvas } = this.state;
     if (!waveCanvas || !shwave) return;
     const { clientHeight, clientWidth } = shwave;
-    logger.clog("更新宽高", clientWidth, clientHeight);
     //获取像素比
     const pixelRatio = window.devicePixelRatio;
     waveCanvas.width = clientWidth * pixelRatio;
@@ -64,7 +62,6 @@ class ShWave extends Component {
     //像素比
     const pixelRatio = window.devicePixelRatio;
     const ctx = waveCanvas && waveCanvas.getContext("2d");
-    logger.clog("绘制", currentTime);
     if (!waveCanvas || !ctx) return;
     //绘制背景
     painter.drawBackground(waveCanvas, ctx, backgroundColor);
@@ -82,6 +79,7 @@ class ShWave extends Component {
     );
     //绘制音频
     if (!this.state.audioData) return;
+    
     const { sampleRate } = this.state.audioData;
     const channelData = this.state.audioData.getChannelData(0);
     painter.drawWave(

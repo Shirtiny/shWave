@@ -1,7 +1,6 @@
 import { useState, useCallback } from "react";
 import DT from "duration-time-conversion";
 import _ from "loadsh";
-import logger from "./logger";
 
 function useClientRect(fn) {
   const [rect, setRect] = useState(null);
@@ -19,8 +18,8 @@ export function durationToTime(duration = 0) {
 }
 
 //节流函数
-export function throttle(fn, wait, option = { trailing: true }) {
-  return _.throttle(fn, wait, option);
+export function throttle(fn, wait) {
+  return _.throttle(fn, wait);
 }
 
 //合并 比如：传入两个unit8数组
@@ -44,9 +43,6 @@ const audioCtx = new AudioContext();
 export async function decodeMediaData(data) {
   if (!data) return;
   return audioCtx.decodeAudioData(data.buffer).then((decodedBuffer) => {
-    logger.clog("decodedAudio", decodedBuffer, "decode后的data有多个channel");
-    logger.clog("channelData 0", decodedBuffer.getChannelData(0));
-    logger.clog("channelData 1", decodedBuffer.getChannelData(1));
     return decodedBuffer;
   });
 }

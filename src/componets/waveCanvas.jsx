@@ -2,9 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import Parse from "./parse";
-import painter from "../common/painter";
-import logger from "../common/logger";
-import common from "../common/common";
 
 const WaveCanvas = ({
   $canvas,
@@ -16,7 +13,6 @@ const WaveCanvas = ({
   updateAudioData
 }) => {
   useEffect(() => {
-    logger.clog("useEffect waveCanvas", waveCanvas);
     if (waveCanvas === null) return;
     //绘制
     draw();
