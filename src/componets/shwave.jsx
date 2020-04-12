@@ -7,7 +7,7 @@ import common from "../common/common";
 import painter from "../common/painter";
 
 class ShWave extends Component {
-  state = { shwave: null, waveCanvas: null };
+  state = { shwave: null, waveCanvas: null, audioData: null };
 
   //回调ref react会自动在挂载时传入对应dom对象，卸载时传入null
   $shwave = (shwave) => {
@@ -43,6 +43,11 @@ class ShWave extends Component {
     waveCanvas.height = clientHeight * pixelRatio;
   };
 
+  //更新音频数据
+  updateAudioData = (audioData) => {
+    this.setState({ audioData });
+  };
+
   // 绘画
   draw = () => {
     const { waveCanvas } = this.state;
@@ -52,6 +57,9 @@ class ShWave extends Component {
       currentTime,
       pointerColor,
       pointerWidth,
+      waveColor,
+      alterWaveColor,
+      waveScale
     } = this.props;
     //像素比
     const pixelRatio = window.devicePixelRatio;
@@ -71,6 +79,23 @@ class ShWave extends Component {
       currentTime,
       pointerColor,
       pointerWidth
+    );
+    //绘制音频
+    if (!this.state.audioData) return;
+    const { sampleRate } = this.state.audioData;
+    const channelData = this.state.audioData.getChannelData(0);
+    painter.drawWave(
+      waveCanvas,
+      ctx,
+      duration,
+      currentTime,
+      sampleRate,
+      channelData,
+      waveScale,
+      true,
+      alterWaveColor,
+      waveColor,
+      0
     );
   };
 
@@ -100,10 +125,11 @@ class ShWave extends Component {
         <WaveCanvas
           $canvas={this.$canvas}
           waveCanvas={this.state.waveCanvas}
-          updateCanvas={this.updateCanvas}
           draw={this.draw}
           currentTime={currentTime}
           url={url}
+          audioData={this.state.audioData}
+          updateAudioData={this.updateAudioData}
         />
       </div>
     );

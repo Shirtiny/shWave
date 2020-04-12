@@ -100,7 +100,7 @@ export const drawPointer = (
   duration = 15,
   currentTime = 0,
   color,
-  pointerWidth = 2,
+  pointerWidth = 2
 ) => {
   if (!canvas || !ctx) return;
   const { width, height } = canvas;
@@ -118,11 +118,104 @@ export const drawPointer = (
     pointerWidth * pixelRatio,
     height
   );
-  
 };
+
+export function clamp(num, a, b) {
+  return Math.max(Math.min(num, Math.max(a, b)), Math.min(a, b));
+}
+
+//绘制音频图
+const drawWave = (
+  canvas,
+  ctx,
+  duration = 15,
+  currentTime = 0,
+  sampleRate,
+  channelData,
+  waveScale = 0.8,
+  progress = true,
+  progressColor = "#57e3e3",
+  waveColor = "#fbf8f86b",
+  padding = 0
+) => {
+  logger.clog("绘制音频");
+  const { width, height } = canvas;
+  const begin = getBegin(currentTime, duration);
+  const length = getLength(duration);
+  const gap = getGap(width, length);
+  const middle = height / 2;
+  const waveWidth = width;
+  const startIndex = clamp(begin * sampleRate, 0, Infinity);
+  const endIndex = clamp((begin + duration) * sampleRate, startIndex, Infinity);
+  const step = Math.floor((endIndex - startIndex) / waveWidth);
+  const cursorX = padding * gap + (currentTime - begin) * gap * 10;
+  let stepIndex = 0;
+  let xIndex = 0;
+  let min = 1;
+  let max = -1;
+  for (let i = startIndex; i < endIndex; i += 1) {
+    
+    stepIndex += 1;
+    const item = channelData[i] || 0;
+    if (item < min) {
+      min = item;
+    } else if (item > max) {
+      max = item;
+    }
+    if (stepIndex >= step && xIndex < waveWidth) {
+      xIndex += 1;
+      const waveX = gap * padding + xIndex;
+      ctx.fillStyle = progress && cursorX >= waveX ? progressColor : waveColor;
+      ctx.fillRect(
+        waveX,
+        (1 + min * waveScale) * middle,
+        1,
+        Math.max(1, (max - min) * middle * waveScale)
+      );
+      stepIndex = 0;
+      min = 1;
+      max = -1;
+    }
+  }
+};
+
+const drawWaveD = (
+  canvas,
+  ctx,
+  pixelRatio = 1,
+  duration = 15,
+  currentTime = 10,
+  color,
+  pointerWidth = 200
+) => {
+  if (!canvas || !ctx) return;
+  const { width, height } = canvas;
+  ctx.fillStyle = color;
+  const length = getLength(duration);
+  const gap = getGap(width, length);
+  const begin = getBegin(currentTime, duration);
+  logger.clog(
+    "指针位置",
+    Number((currentTime - begin) * pixelRatio * 10 * gap).toFixed(3)
+  );
+  ctx.fillRect(
+    Number((currentTime - begin) * pixelRatio * 10 * gap).toFixed(3),
+    0,
+    pointerWidth * pixelRatio,
+    height
+  );
+};
+
+export const drawWaveInThrottle = common.throttle((canvas, ctx) => {
+  logger.clog("绘图节流", canvas, ctx);
+  drawWaveD(canvas, ctx);
+}, 2000);
 
 export default {
   drawBackground,
   drawRuler,
   drawPointer,
+  drawWave,
+  drawWaveD,
+  drawWaveInThrottle,
 };

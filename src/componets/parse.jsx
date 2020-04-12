@@ -2,10 +2,13 @@ import React, { useCallback, useEffect, useState } from "react";
 import logger from "../common/logger";
 import common from "../common/common";
 
-const Parse = ({ url }) => {
+const Parse = ({ url, drawWave, updateAudioData }) => {
+  //数据大小
   const [dataSize, setDataSize] = useState(0);
   //data为Uint8Array 8位无符号整型数组
   const [data, setData] = useState(null);
+  //解析后的音频数据 decodedBuffer
+  // const [audioData, setAudioData] = useState(null);
 
   const fetchMedia = useCallback(() => {
     if (!url) return;
@@ -38,6 +41,22 @@ const Parse = ({ url }) => {
     });
   }, [url, setDataSize, setData]);
 
+  //获取到data后执行 从data解析音频
+  const decodeAudio = useCallback(async () => {
+    logger.clog("decodeAudio:", data);
+    //解析数据
+    try {
+      const audioData = await common.decodeMediaData(data);
+      //更新解析后的音频数据
+      logger.clog("audioData:", audioData);
+      updateAudioData(audioData);
+    } catch (e) {
+      logger.clog("解析出错", e);
+      //将音频置空
+      updateAudioData(null);
+    }
+  }, [data]);
+
   useEffect(() => {
     //拉取数据
     fetchMedia();
@@ -45,7 +64,19 @@ const Parse = ({ url }) => {
 
   useEffect(() => {
     logger.clog("useEffect data:", data);
-  });
+    if (data === null) return;
+    //解析数据
+    decodeAudio();
+  }, [data]);
+
+  // useEffect(() => {
+  //   logger.clog("useEffect audioData", audioData, currentTime);
+  //   if (audioData === null) return;
+  //   //根据音频数据 绘图
+  //   const sampleRate = audioData.sampleRate;
+  //   const channelData = audioData.getChannelData(0);
+  //   drawWave(sampleRate, channelData);
+  // },[audioData,currentTime]);
 
   return null;
 };

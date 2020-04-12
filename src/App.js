@@ -61,8 +61,11 @@ const App = () => {
           backgroundColor={"#529393"}
           pointerColor={"#ddd"}
           pointerWidth={3}
+          waveColor={"#fbf8f86b"}
+          alterWaveColor={"#57e3e3"}
+          waveScale={2}
           currentTime={currentTime}
-          throttleWait={2300}
+          throttleWait={300}
           url={url}
         />
       </div>

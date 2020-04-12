@@ -9,17 +9,18 @@ import common from "../common/common";
 const WaveCanvas = ({
   $canvas,
   waveCanvas,
-  updateCanvas,
   draw,
   currentTime,
-  url
+  url,
+  audioData,
+  updateAudioData
 }) => {
   useEffect(() => {
     logger.clog("useEffect waveCanvas", waveCanvas);
     if (waveCanvas === null) return;
     //绘制
     draw();
-  }, [waveCanvas, currentTime]);
+  }, [waveCanvas, currentTime,audioData]);
 
   return (
     <React.Fragment>
@@ -31,7 +32,7 @@ const WaveCanvas = ({
           width: 100%;
         `}
       ></canvas>
-      <Parse url={url}/>
+      <Parse url={url} updateAudioData={updateAudioData}/>
     </React.Fragment>
   );
 };
