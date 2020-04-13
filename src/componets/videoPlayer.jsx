@@ -5,26 +5,22 @@ import logger from "../common/logger";
 
 class VideoPlayer extends Component {
   load = (player) => {
-    const { setPlayer } = this.props;
+    const { setPlayer, setCurrentTime } = this.props;
+    logger.clog("loaded");
     setPlayer(player);
-  };
-
-  //播放中
-  playing = () => {
-    const { player, setCurrentTime } = this.props;
-    logger.clog("player", player);
     //1秒60帧 根据屏幕刷新虑有所变化，time为时间戳 ，每一帧的工作内容为：
     function frameWork(time) {
       //如果视频没有暂停 下一帧继续调用frameWork
-      if (!player.video.paused) {
-        //更新当前时间
-        setCurrentTime(player.video.currentTime);
-        window.requestAnimationFrame(frameWork);
-      }
+      //更新当前时间
+      setCurrentTime(player.video.currentTime);
+      window.requestAnimationFrame(frameWork);
     }
     //作为启动
     window.requestAnimationFrame(frameWork);
   };
+
+  //播放中
+  playing = () => {};
 
   render() {
     // const videoUrl = "https://sh-rep.oss-cn-hongkong.aliyuncs.com/mll.mp4";

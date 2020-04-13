@@ -172,38 +172,9 @@ const drawWave = (
   }
 };
 
-const drawWaveD = (
-  canvas,
-  ctx,
-  pixelRatio = 1,
-  duration = 15,
-  currentTime = 10,
-  color,
-  pointerWidth = 200
-) => {
-  if (!canvas || !ctx) return;
-  const { width, height } = canvas;
-  ctx.fillStyle = color;
-  const length = getLength(duration);
-  const gap = getGap(width, length);
-  const begin = getBegin(currentTime, duration);
-  ctx.fillRect(
-    Number((currentTime - begin) * pixelRatio * 10 * gap).toFixed(3),
-    0,
-    pointerWidth * pixelRatio,
-    height
-  );
-};
-
-export const drawWaveInThrottle = common.throttle((canvas, ctx) => {
-  drawWaveD(canvas, ctx);
-}, 2000);
-
 export default {
   drawBackground,
   drawRuler,
   drawPointer,
   drawWave,
-  drawWaveD,
-  drawWaveInThrottle,
 };

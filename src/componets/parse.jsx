@@ -6,13 +6,12 @@ const Parse = ({ url, drawWave, updateAudioData }) => {
   const [dataSize, setDataSize] = useState(0);
   //data为Uint8Array 8位无符号整型数组
   const [data, setData] = useState(null);
-  //解析后的音频数据 decodedBuffer
-  // const [audioData, setAudioData] = useState(null);
 
   const fetchMedia = useCallback(() => {
     if (!url) return;
+    let abortController = new AbortController();
     let reader = null;
-    fetch(url, {}).then((res) => {
+    fetch(url, { signal: abortController.signal }).then((res) => {
       //如果res.body是流
       if (res.body && typeof res.body.getReader === "function") {
         const fileSize = res.headers.get("content-length");
@@ -24,6 +23,10 @@ const Parse = ({ url, drawWave, updateAudioData }) => {
         //使用reader读取二进制数据  "done"是一个布尔型，"value"是一个Unit8Array
         reader.read().then(function read({ done, value }) {
           if (done) {
+            abortController.abort();
+            reader.cancel();
+            abortController = null;
+            reader = null;
             setData(data);
             return;
           }
@@ -59,14 +62,6 @@ const Parse = ({ url, drawWave, updateAudioData }) => {
     //解析数据
     decodeAudio();
   }, [data]);
-
-  // useEffect(() => {
-  //   if (audioData === null) return;
-  //   //根据音频数据 绘图
-  //   const sampleRate = audioData.sampleRate;
-  //   const channelData = audioData.getChannelData(0);
-  //   drawWave(sampleRate, channelData);
-  // },[audioData,currentTime]);
 
   return null;
 };

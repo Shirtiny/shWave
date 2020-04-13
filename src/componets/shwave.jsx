@@ -1,11 +1,11 @@
-import React, { Component, useState, useCallback, useEffect } from "react";
+import React, { PureComponent } from "react";
 import WaveCanvas from "./waveCanvas";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import common from "../common/common";
 import painter from "../common/painter";
 
-class ShWave extends Component {
+class ShWave extends PureComponent {
   state = { shwave: null, waveCanvas: null, audioData: null };
 
   //回调ref react会自动在挂载时传入对应dom对象，卸载时传入null
@@ -25,7 +25,7 @@ class ShWave extends Component {
       window.addEventListener("resize", this.onResize);
     } else {
       //取消resize监听
-      
+
       window.removeEventListener("resize", this.onResize);
     }
   };
@@ -57,7 +57,7 @@ class ShWave extends Component {
       pointerWidth,
       waveColor,
       alterWaveColor,
-      waveScale
+      waveScale,
     } = this.props;
     //像素比
     const pixelRatio = window.devicePixelRatio;
@@ -79,7 +79,7 @@ class ShWave extends Component {
     );
     //绘制音频
     if (!this.state.audioData) return;
-    
+
     const { sampleRate } = this.state.audioData;
     const channelData = this.state.audioData.getChannelData(0);
     painter.drawWave(

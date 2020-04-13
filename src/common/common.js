@@ -35,13 +35,12 @@ export function merge(...buffers) {
   }, new Constructor());
 }
 
-//AudioContext可以控制它所包含的节点的创建，以及音频处理、解码操作的执行 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const AudioContext = window.AudioContext || window.webkitAudioContext;
-const audioCtx = new AudioContext();
-
 //解析媒体数据 返回解析后的音频
 export async function decodeMediaData(data) {
   if (!data) return;
+  //AudioContext可以控制它所包含的节点的创建，以及音频处理、解码操作的执行 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  const audioCtx = new AudioContext();
   return audioCtx.decodeAudioData(data.buffer).then((decodedBuffer) => {
     return decodedBuffer;
   });
