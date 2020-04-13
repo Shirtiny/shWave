@@ -33,4 +33,4 @@ const WaveCanvas = ({
   );
 };
 
-export default WaveCanvas;
+export default React.memo(WaveCanvas);

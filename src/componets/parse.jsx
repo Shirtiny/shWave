@@ -66,4 +66,4 @@ const Parse = ({ url, drawWave, updateAudioData }) => {
   return null;
 };
 
-export default Parse;
+export default React.memo(Parse);
