@@ -21,11 +21,19 @@ class ShWave extends PureComponent {
       this.setState({ waveCanvas }, () => {
         this.updateCanvas();
       });
+      const { click } = this.props;
       //设置resize窗口监听
       window.addEventListener("resize", this.onResize);
+      //设置canvas点击监听
+      waveCanvas.addEventListener("click", this.onCanavsClick);
+      //禁用canvas原生右键
+      waveCanvas.oncontextmenu = () => {
+        return false;
+      };
+      //设置canvas右键监听
+      waveCanvas.addEventListener("contextmenu", this.onCanvasContextmenu);
     } else {
       //取消resize监听
-
       window.removeEventListener("resize", this.onResize);
     }
   };
@@ -103,7 +111,47 @@ class ShWave extends PureComponent {
     this.draw();
   }, this.props.throttleWait || 300);
 
-  componentDidMount() {}
+  //从canvas点击事件 计算time
+  computeTimeFromEvent(event) {
+    const { currentTime, duration } = this.props;
+    const { shwave, waveCanvas } = this.state;
+    const { width, height } = waveCanvas;
+    const pixelRatio = window.devicePixelRatio;
+    const length = painter.getLength(duration);
+    const gap = painter.getGap(width, length);
+    const left = painter.clamp(
+      event.pageX - shwave.offsetLeft / pixelRatio,
+      0,
+      Infinity
+    );
+    const begin = painter.getBegin(currentTime, duration);
+    const time = painter.clamp(
+      ((left / gap) * pixelRatio) / 10 + begin,
+      begin,
+      begin + duration
+    );
+    return time;
+  }
+
+  //canvas click
+  onCanavsClick = (event) => {
+    const time = this.computeTimeFromEvent(event);
+    const { currentTime, url, click } = this.props;
+    if (url && currentTime !== time) {
+      click(time, event);
+      this.draw();
+    }
+  };
+
+  //canvas contextmenu 右键
+  onCanvasContextmenu = (event) => {
+    const time = this.computeTimeFromEvent(event);
+    const { url, currentTime, contextmenu } = this.props;
+    if (url && currentTime !== time) {
+      contextmenu(time, event);
+      this.draw();
+    }
+  };
 
   render() {
     const { currentTime, url } = this.props;

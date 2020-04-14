@@ -130,7 +130,6 @@ const drawWave = (
   progress = true,
   progressColor = "#57e3e3",
   waveColor = "#fbf8f86b",
-  padding = 0
 ) => {
   const { width, height } = canvas;
   const begin = getBegin(currentTime, duration);
@@ -138,16 +137,16 @@ const drawWave = (
   const gap = getGap(width, length);
   const middle = height / 2;
   const waveWidth = width;
+  // sampleRate 采样率 每秒从连续信号中提取并组成离散信号的采样个数
   const startIndex = clamp(begin * sampleRate, 0, Infinity);
   const endIndex = clamp((begin + duration) * sampleRate, startIndex, Infinity);
   const step = Math.floor((endIndex - startIndex) / waveWidth);
-  const cursorX = padding * gap + (currentTime - begin) * gap * 10;
+  const cursorX = (currentTime - begin) * gap * 10;
   let stepIndex = 0;
   let xIndex = 0;
   let min = 1;
   let max = -1;
   for (let i = startIndex; i < endIndex; i += 1) {
-    
     stepIndex += 1;
     const item = channelData[i] || 0;
     if (item < min) {
@@ -157,7 +156,7 @@ const drawWave = (
     }
     if (stepIndex >= step && xIndex < waveWidth) {
       xIndex += 1;
-      const waveX = gap * padding + xIndex;
+      const waveX = xIndex;
       ctx.fillStyle = progress && cursorX >= waveX ? progressColor : waveColor;
       ctx.fillRect(
         waveX,
@@ -173,6 +172,10 @@ const drawWave = (
 };
 
 export default {
+  getLength,
+  getGap,
+  getBegin,
+  clamp,
   drawBackground,
   drawRuler,
   drawPointer,

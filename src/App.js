@@ -28,6 +28,26 @@ const App = () => {
     [url, setUrl, player]
   );
 
+  //canvas 右键
+  const contextmenu = useCallback(
+    (time, event) => {
+      if (!player) return;
+      player.play();
+      player.seek(time);
+    },
+    [player]
+  );
+
+  //canvas 左键
+  const click = useCallback(
+    (time, event) => {
+      if (!player) return;
+      player.pause();
+      player.seek(time);
+    },
+    [player]
+  );
+
   return (
     <Fragment>
       <div
@@ -63,10 +83,12 @@ const App = () => {
           pointerWidth={3}
           waveColor={"#fbf8f86b"}
           alterWaveColor={"#57e3e3"}
-          waveScale={2}
+          waveScale={0.8}
           currentTime={currentTime}
           throttleWait={300}
           url={url}
+          click={click}
+          contextmenu={contextmenu}
         />
       </div>
     </Fragment>
