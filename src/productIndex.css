@@ -1,0 +1,23 @@
+#subBlock {
+  height: 50%;
+  /* background-color: rgba(255, 255, 255, 0.2); */
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+#subBlock:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+#subBlock.highlight {
+  background-color: rgba(33, 150, 243, 0.5);
+  border-left: 1px solid rgba(33, 150, 243, 0.5);
+  border-right: 1px solid rgba(33, 150, 243, 0.5);
+}
+
+#subBlock.illegal {
+  background-color: rgba(199, 81, 35, 0.5);
+}
+
+#subBlock p {
+  line-height: 1.5;
+  margin: 0;
+}

@@ -118,7 +118,7 @@ export function clamp(num, a, b) {
   return Math.max(Math.min(num, Math.max(a, b)), Math.min(a, b));
 }
 
-//绘制音频图
+//绘制音频图 星
 const drawWave = (
   canvas,
   ctx,

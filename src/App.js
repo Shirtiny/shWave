@@ -48,6 +48,33 @@ const App = () => {
     [player]
   );
 
+  const subArray = [
+    {
+      content: "1号",
+      end: 0.999,
+      length: 0.999,
+      start: 0,
+    },
+    {
+      content: "2号",
+      end: 1.999,
+      length: 0.999,
+      start: 1,
+    },
+    {
+      content: "3号",
+      end: 2.999,
+      length: 0.999,
+      start: 2,
+    },
+    {
+      content: "4号",
+      end: 18,
+      length: 12,
+      start: 15,
+    },
+  ];
+
   return (
     <Fragment>
       <div
@@ -89,6 +116,7 @@ const App = () => {
           url={url}
           click={click}
           contextmenu={contextmenu}
+          subArray={subArray}
         />
       </div>
     </Fragment>

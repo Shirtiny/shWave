@@ -4,6 +4,7 @@ import WaveCanvas from "./waveCanvas";
 import { css, jsx } from "@emotion/core";
 import common from "../common/common";
 import painter from "../common/painter";
+import SubBlocks from "./subBlocks";
 
 class ShWave extends PureComponent {
   state = { shwave: null, waveCanvas: null, audioData: null };
@@ -111,7 +112,7 @@ class ShWave extends PureComponent {
     this.draw();
   }, this.props.throttleWait || 300);
 
-  //从canvas点击事件 计算time
+  //从canvas点击事件 计算time 星
   computeTimeFromEvent(event) {
     const { currentTime, duration } = this.props;
     const { shwave, waveCanvas } = this.state;
@@ -154,7 +155,7 @@ class ShWave extends PureComponent {
   };
 
   render() {
-    const { currentTime, url } = this.props;
+    const { currentTime, url, duration, subArray } = this.props;
     return (
       <div
         ref={this.$shwave}
@@ -164,10 +165,13 @@ class ShWave extends PureComponent {
           display: flex;
           height: 100%;
           width: 100%;
-          // background-color: #529393;
-          background-color: #fff;
         `}
       >
+        <SubBlocks
+          duration={duration}
+          currentTime={currentTime}
+          subArray={subArray}
+        />
         <WaveCanvas
           $canvas={this.$canvas}
           waveCanvas={this.state.waveCanvas}
