@@ -7,7 +7,9 @@ const SubBlocks = ({ duration, begin, subArray, canvasWidth }) => {
   //用于筛选数组
   const filterSubArray = useCallback(() => {
     const filtered = [...subArray].filter(
-      (sub) => sub.start >= begin && sub.start < begin + duration
+      (sub) =>
+        (sub.start >= begin && sub.start < begin + duration) ||
+        (sub.end > begin && sub.end <= begin + duration)
     );
     return filtered;
   }, [duration, begin, subArray]);
