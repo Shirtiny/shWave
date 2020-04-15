@@ -57,20 +57,20 @@ const App = () => {
     },
     {
       content: "2号",
-      end: 1.999,
-      length: 0.999,
-      start: 1,
+      end: 6.999,
+      length: 1.999,
+      start: 5,
     },
     {
       content: "3号",
-      end: 2.999,
-      length: 0.999,
-      start: 2,
+      end: 14.999,
+      length: 4.999,
+      start: 10,
     },
     {
       content: "4号",
       end: 18,
-      length: 12,
+      length: 3,
       start: 15,
     },
   ];

@@ -22,7 +22,7 @@ function getLength(duration) {
   return duration * 10;
 }
 
-//获取间距 实际宽度px / 时长 * 10
+//获取间距 实际宽度px / (时长 * 10)
 function getGap(width, length) {
   return Number(width / length).toFixed(3);
 }
@@ -31,6 +31,19 @@ function getGap(width, length) {
 function getBegin(currentTime, duration) {
   //起始时间
   return Math.floor(currentTime / duration) * duration;
+}
+
+//每0.1秒时间轴 对应的像素
+function getGapPx(canvasWidth,duration) {
+  const pixelRatio = window.devicePixelRatio;
+    if (!canvasWidth) return 0;
+    const length = getLength(duration);
+    //gap : 每格间距多少像素 一格代表0.1s 也就是每0.1s多少px
+    const gap = getGap(canvasWidth, length);
+    //gap * 像素密度 兼容不同的分辨率得到合适的大小
+    const gapPx = gap * pixelRatio;
+    console.log("canvas宽度",canvasWidth)
+    return gapPx;
 }
 
 /**
@@ -175,6 +188,7 @@ export default {
   getLength,
   getGap,
   getBegin,
+  getGapPx,
   clamp,
   drawBackground,
   drawRuler,

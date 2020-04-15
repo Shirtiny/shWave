@@ -1,26 +1,30 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import painter from "../common/painter";
 
-const SubBlocks = ({ duration, currentTime, subArray }) => {
-  //筛选数组
+const SubBlocks = ({ duration, begin, subArray, canvasWidth }) => {
+  //用于筛选数组
   const filterSubArray = useCallback(() => {
-    const begin = painter.getBegin(currentTime, duration);
-    const filtered = subArray.filter(
+    const filtered = [...subArray].filter(
       (sub) => sub.start >= begin && sub.start < begin + duration
     );
     return filtered;
-  }, [duration, currentTime, subArray]);
+  }, [duration, begin, subArray]);
 
-  //筛选数组
+  //数组筛选
   const filteredSubArray = filterSubArray();
+  //计算grid
+  const gapPx = painter.getGapPx(canvasWidth, duration);
+  console.log(filteredSubArray, canvasWidth, begin, gapPx);
+
   return (
     <div
       id="subBlocksContainer"
       css={css`
         position: absolute;
         z-index: 1;
+        pointer-events: none;
         left: 0;
         top: 0;
         height: 100%;
@@ -31,6 +35,7 @@ const SubBlocks = ({ duration, currentTime, subArray }) => {
         id="subBlocksInner"
         css={css`
           position: relative;
+          pointer-events: none;
           width: 100%;
           height: 100%;
           overflow: hidden;
@@ -43,14 +48,10 @@ const SubBlocks = ({ duration, currentTime, subArray }) => {
             id="subBlock"
             // key为开始+结束+内容
             key={sub.start + "" + sub.end + sub.content}
-            css={css`
-              //   position: absolute;
-              //   left: 0;
-              //   top: 0;
-              margin-left: 50px;
-              width: 400px;
-              background-color: #fff;
-            `}
+            style={{
+              left: (sub.start - begin) * gapPx * 10,
+              width: sub.length * gapPx * 10,
+            }}
           >
             {sub.content}
           </div>
@@ -60,4 +61,15 @@ const SubBlocks = ({ duration, currentTime, subArray }) => {
   );
 };
 
-export default SubBlocks;
+let init = -1;
+
+export default React.memo(SubBlocks, (preProps, nextProps) => {
+  //返回false表示渲染 true表示不渲染
+  if (nextProps.begin === 0 && init <= 5) {
+    //初始状态 最多渲染5次
+    init++;
+    return false;
+  }
+  return preProps.begin === nextProps.begin;
+  //subArray待处理
+});

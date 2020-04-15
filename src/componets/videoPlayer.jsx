@@ -6,7 +6,6 @@ import logger from "../common/logger";
 class VideoPlayer extends Component {
   load = (player) => {
     const { setPlayer, setCurrentTime } = this.props;
-    logger.clog("loaded");
     setPlayer(player);
     //1秒60帧 根据屏幕刷新虑有所变化，time为时间戳 ，每一帧的工作内容为：
     function frameWork(time) {

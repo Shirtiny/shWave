@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import WaveCanvas from "./waveCanvas";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
@@ -6,8 +6,13 @@ import common from "../common/common";
 import painter from "../common/painter";
 import SubBlocks from "./subBlocks";
 
-class ShWave extends PureComponent {
-  state = { shwave: null, waveCanvas: null, audioData: null };
+class ShWave extends Component {
+  state = {
+    shwave: null,
+    waveCanvas: null,
+    audioData: null,
+    canvasWidth: 0,
+  };
 
   //回调ref react会自动在挂载时传入对应dom对象，卸载时传入null
   $shwave = (shwave) => {
@@ -48,6 +53,9 @@ class ShWave extends PureComponent {
     const pixelRatio = window.devicePixelRatio;
     waveCanvas.width = clientWidth * pixelRatio;
     waveCanvas.height = clientHeight * pixelRatio;
+    //更新canvasWidth
+    const canvasWidth = waveCanvas.width;
+    this.setState({ canvasWidth });
   };
 
   //更新音频数据
@@ -156,6 +164,8 @@ class ShWave extends PureComponent {
 
   render() {
     const { currentTime, url, duration, subArray } = this.props;
+    //当前canvas的起始时间
+    const begin = painter.getBegin(currentTime, duration);
     return (
       <div
         ref={this.$shwave}
@@ -169,8 +179,9 @@ class ShWave extends PureComponent {
       >
         <SubBlocks
           duration={duration}
-          currentTime={currentTime}
+          begin={begin}
           subArray={subArray}
+          canvasWidth={this.state.canvasWidth}
         />
         <WaveCanvas
           $canvas={this.$canvas}
