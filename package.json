@@ -1,6 +1,6 @@
 {
   "name": "shwave",
-  "version": "1.4.6",
+  "version": "1.5.0",
   "main": "dist/shwave.min.js",
   "author": {
     "name": "Shirtiny"
