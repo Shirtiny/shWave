@@ -17,6 +17,7 @@
 
 .subBlockDrag {
   display: none !important;
+  z-index: 2;
   cursor: ew-resize;
   position: absolute;
   top: 0;
@@ -44,6 +45,7 @@
   border-radius: 5px;
   border-top: 1px solid #fff;
   border-bottom: 1px solid #fff;
+  transition: background-color 0.2s ease;
 }
 
 .subBlock:hover .subBlockContent {
