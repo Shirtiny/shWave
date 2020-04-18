@@ -47,7 +47,7 @@ const SubBlocks = ({ duration, begin, subArray, canvasWidth }) => {
       >
         {filteredSubArray.map((sub) => (
           <div
-            id="subBlock"
+            className="subBlock"
             // key为开始+结束+内容
             key={sub.start + "" + sub.end + sub.content}
             style={{
@@ -55,7 +55,29 @@ const SubBlocks = ({ duration, begin, subArray, canvasWidth }) => {
               width: sub.length * gapPx * 10,
             }}
           >
-            {sub.content}
+            <div
+              className="subBlockDrag"
+              style={{
+                left: `-${1.5 * gapPx}px`,
+                width: 1.5 * gapPx,
+                borderRadius: `${0.7 * gapPx}px 0 0 ${0.7 * gapPx}px`,
+              }}
+            >
+              <i class="fa fa-bars fa-rotate-90 subBlockDragIcon"></i>
+            </div>
+            <div className="subBlockContent">
+              <p>{sub.content}</p>
+            </div>
+            <div
+              className="subBlockDrag"
+              style={{
+                right: `-${1.5 * gapPx}px`,
+                width: 1.5 * gapPx,
+                borderRadius: `0 ${0.7 * gapPx}px ${0.7 * gapPx}px 0`,
+              }}
+            >
+              <i class="fa fa-bars fa-rotate-90 subBlockDragIcon"></i>
+            </div>
           </div>
         ))}
       </div>
