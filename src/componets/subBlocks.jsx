@@ -14,6 +14,17 @@ const SubBlocks = ({ duration, begin, subArray, canvasWidth }) => {
     return filtered;
   }, [duration, begin, subArray]);
 
+  //当鼠标点下时 subContent
+  const handleMouseDown = useCallback((e) => {
+    const subBlock = e.currentTarget.parentElement;
+    const movable = subBlock.getAttribute("submovable");
+    console.log(movable);
+    //将可移动设为true
+    subBlock.setAttribute("submovable", "true");
+    //注意这里的width不包括drag的width
+    console.log("設為true", subBlock.style.width);
+  });
+
   //数组筛选
   const filteredSubArray = filterSubArray();
   //计算grid
@@ -50,6 +61,8 @@ const SubBlocks = ({ duration, begin, subArray, canvasWidth }) => {
             className="subBlock"
             // key为开始+结束+内容
             key={sub.start + "" + sub.end + sub.content}
+            // 自定义的属性
+            submovable="false"
             style={{
               left: (sub.start - begin) * gapPx * 10,
               width: sub.length * gapPx * 10,
@@ -57,26 +70,35 @@ const SubBlocks = ({ duration, begin, subArray, canvasWidth }) => {
           >
             <div
               className="subBlockDrag"
+              // 自定义的属性
+              subtype="dragLeft"
               style={{
                 left: `-${1.5 * gapPx}px`,
                 width: 1.5 * gapPx,
                 borderRadius: `${0.7 * gapPx}px 0 0 ${0.7 * gapPx}px`,
               }}
             >
-              <i class="fa fa-bars fa-rotate-90 subBlockDragIcon"></i>
+              <i className="fa fa-bars fa-rotate-90 subBlockDragIcon"></i>
             </div>
-            <div className="subBlockContent">
+            <div
+              className="subBlockContent"
+              // 自定义的属性
+              subtype="content"
+              onMouseDown={handleMouseDown}
+            >
               <p>{sub.content}</p>
             </div>
             <div
               className="subBlockDrag"
+              // 自定义的属性
+              subtype="dragRight"
               style={{
                 right: `-${1.5 * gapPx}px`,
                 width: 1.5 * gapPx,
                 borderRadius: `0 ${0.7 * gapPx}px ${0.7 * gapPx}px 0`,
               }}
             >
-              <i class="fa fa-bars fa-rotate-90 subBlockDragIcon"></i>
+              <i className="fa fa-bars fa-rotate-90 subBlockDragIcon"></i>
             </div>
           </div>
         ))}
