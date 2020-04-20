@@ -9,6 +9,32 @@ const App = () => {
   const [player, setPlayer] = useState(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [url, setUrl] = useState("");
+  const [subArray, setSubArray] = useState([
+    {
+      content: "1号",
+      end: 0.999,
+      length: 0.999,
+      start: 0,
+    },
+    {
+      content: "2号",
+      end: 6.999,
+      length: 1.999,
+      start: 5,
+    },
+    {
+      content: "3号",
+      end: 14.999,
+      length: 4.999,
+      start: 10,
+    },
+    {
+      content: "4号",
+      end: 18,
+      length: 3,
+      start: 15,
+    },
+  ]);
 
   const handleVideoFile = useCallback(
     (e) => {
@@ -48,32 +74,16 @@ const App = () => {
     [player]
   );
 
-  const subArray = [
-    {
-      content: "1号",
-      end: 0.999,
-      length: 0.999,
-      start: 0,
-    },
-    {
-      content: "2号",
-      end: 6.999,
-      length: 1.999,
-      start: 5,
-    },
-    {
-      content: "3号",
-      end: 14.999,
-      length: 4.999,
-      start: 10,
-    },
-    {
-      content: "4号",
-      end: 18,
-      length: 3,
-      start: 15,
-    },
-  ];
+  //sub块被移动时
+  const handleSubMove = useCallback((originSub, translateSecond) => {
+    console.log("收到移动", originSub, translateSecond);
+    const subs = [...subArray];
+    const index = subs.indexOf(originSub);
+    const sub = subs[index];
+    sub.start += translateSecond;
+    sub.end += translateSecond;
+    setSubArray(subs);
+  });
 
   return (
     <Fragment>
@@ -117,6 +127,7 @@ const App = () => {
           click={click}
           contextmenu={contextmenu}
           subArray={subArray}
+          onSubMove={handleSubMove}
         />
       </div>
     </Fragment>
