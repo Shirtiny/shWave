@@ -45,10 +45,13 @@
   border-radius: 5px;
   border-top: 1px solid #fff;
   border-bottom: 1px solid #fff;
+  border-left: 1px solid rgba(15, 238, 219);
+  border-right: 1px solid rgba(15, 238, 219);
   transition: background-color 0.2s ease;
 }
 
 .subBlock:hover .subBlockContent {
+  z-index: 2;
   background-color: #fff;
   border-radius: 0px;
   border-top-color: rgba(15, 238, 219, 0.76);

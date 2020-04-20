@@ -42,7 +42,6 @@ function getGapPx(canvasWidth,duration) {
     const gap = getGap(canvasWidth, length);
     //gap * 像素密度 兼容不同的分辨率得到合适的大小
     const gapPx = gap * pixelRatio;
-    console.log("canvas宽度",canvasWidth)
     return gapPx;
 }
 

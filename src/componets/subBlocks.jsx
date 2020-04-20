@@ -175,7 +175,7 @@ export default React.memo(SubBlocks, (preProps, nextProps) => {
   if (preProps.subArray !== nextProps.subArray) {
     return false;
   }
-  
+
   //返回false表示渲染 true表示不渲染
   if (nextProps.begin === 0 && init <= 5) {
     //初始状态 最多渲染5次
@@ -184,7 +184,7 @@ export default React.memo(SubBlocks, (preProps, nextProps) => {
   }
 
   return (
-    preProps.begin === nextProps.begin ||
-    preProps.subArray === nextProps.subArray
+    //开始时间是否变化
+    preProps.begin === nextProps.begin
   );
 });
