@@ -213,8 +213,8 @@ const SubBlocks = ({
 let init = -1;
 
 export default React.memo(SubBlocks, (preProps, nextProps) => {
-  //如果前后字幕数组的内存地址变化 则渲染
-  if (preProps.subArray !== nextProps.subArray) {
+  //如果前后字幕数组的内存地址变化 或者canvas宽度发生变化 则渲染
+  if (preProps.subArray !== nextProps.subArray || preProps.canvasWidth !== nextProps.canvasWidth) {
     return false;
   }
 
