@@ -76,13 +76,18 @@ const App = () => {
 
   //sub块被移动时
   const handleSubMove = useCallback((originSub, translateSecond) => {
-    console.log("收到移动", originSub, translateSecond);
+    console.log("App收到移动", originSub, translateSecond);
     const subs = [...subArray];
     const index = subs.indexOf(originSub);
     const sub = subs[index];
     sub.start += translateSecond;
     sub.end += translateSecond;
     setSubArray(subs);
+  });
+
+  //移动出错时 （不能跨字幕移动
+  const handleSubMoveError = useCallback(() => {
+    console.log("不能跨字幕移动");
   });
 
   return (
@@ -128,6 +133,7 @@ const App = () => {
           contextmenu={contextmenu}
           subArray={subArray}
           onSubMove={handleSubMove}
+          onSubMoveError={handleSubMoveError}
         />
       </div>
     </Fragment>

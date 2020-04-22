@@ -9,8 +9,18 @@ let currentSubBlock = null;
 let currentTranslatePx = 0;
 //当前被选中的sub 原型
 let currentOriginSub = null;
+//移动范围
+let currentLeftLimit = 0;
+let currentRightLimit = 0;
 
-const SubBlocks = ({ duration, begin, subArray, canvasWidth, onSubMove }) => {
+const SubBlocks = ({
+  duration,
+  begin,
+  subArray,
+  canvasWidth,
+  onSubMove,
+  onSubMoveError,
+}) => {
   //用于筛选数组
   const filterSubArray = useCallback(() => {
     const filtered = [...subArray].filter(
@@ -24,7 +34,8 @@ const SubBlocks = ({ duration, begin, subArray, canvasWidth, onSubMove }) => {
   //当鼠标点下时 subContent
   const handleMouseDown = useCallback((e, sub) => {
     const subBlock = e.currentTarget.parentElement;
-    //给临时变量赋值
+    if (!subBlock) return;
+    //赋值
     currentSubBlock = subBlock;
     currentTranslatePx = 0;
     currentOriginSub = sub;
@@ -36,7 +47,27 @@ const SubBlocks = ({ duration, begin, subArray, canvasWidth, onSubMove }) => {
     //增加z轴为3
     subBlock.style.zIndex = 3;
     //注意这里的width不包括drag的width
-    console.log("設為true", e.pageX, subBlock.style.width);
+    // logger.clog("設為true", e.pageX, subBlock.style.width);
+
+    //左移上限parseFloat 可以把字符串转数字 带px也可
+    const preLeft =
+      (currentSubBlock.previousElementSibling &&
+        currentSubBlock.previousElementSibling.offsetLeft) ||
+      0;
+    const preWidth =
+      (currentSubBlock.previousElementSibling &&
+        currentSubBlock.previousElementSibling.offsetWidth) ||
+      0;
+    const preLimit = preLeft + preWidth;
+    //右移上限
+    const nextLeft =
+      (currentSubBlock.nextElementSibling &&
+        currentSubBlock.nextElementSibling.offsetLeft) ||
+      Infinity;
+    const nextLimit = nextLeft;
+    //滑块移动范围
+    currentLeftLimit = preLimit;
+    currentRightLimit = nextLimit;
   }, []);
 
   //全局 当鼠标移动时
@@ -48,28 +79,42 @@ const SubBlocks = ({ duration, begin, subArray, canvasWidth, onSubMove }) => {
     if (movable === "false" || !startPageX) return;
     //平移的距离
     const translatePx = e.pageX - startPageX;
-    //移动距离赋值
-    currentTranslatePx = translatePx;
     currentSubBlock.style.transform = `translate(${translatePx}px)`;
+    //滑块移动范围
+    const left = currentSubBlock.offsetLeft + translatePx;
+    if (
+      left > currentLeftLimit + 1 &&
+      left < currentRightLimit - currentSubBlock.offsetWidth - 1
+    ) {
+      //移动距离赋值
+      currentTranslatePx = translatePx;
+      // 改颜色
+      currentSubBlock.children[1].style.backgroundColor = "";
+    } else {
+      //不在移动范围内
+      // 改颜色
+      currentSubBlock.children[1].style.backgroundColor = "#f09b50d9";
+      //报错
+      onSubMoveError && onSubMoveError();
+    }
   }, []);
 
   //全局 鼠标松开时
   const handleDocumentMouseUp = useCallback((e) => {
     if (currentSubBlock === null) return;
+    currentSubBlock.children[1].style.backgroundColor = "";
     currentSubBlock.setAttribute("pagex", "");
     currentSubBlock.setAttribute("submovable", "false");
     currentSubBlock.style.transform = ``;
     currentSubBlock.style.zIndex = "";
-    console.log(
-      "移动了",
-      currentTranslatePx + "px",
-      currentTranslatePx / gapPx / 10 + "s"
-    );
+    //将数据交给接口函数
     onSubMove(currentOriginSub, currentTranslatePx / gapPx / 10);
-    //然后置空
+    //重置
     currentSubBlock = null;
     currentOriginSub = null;
     currentTranslatePx = 0;
+    currentLeftLimit = 0;
+    currentRightLimit = 0;
   });
 
   useEffect(() => {
@@ -86,8 +131,6 @@ const SubBlocks = ({ duration, begin, subArray, canvasWidth, onSubMove }) => {
   const filteredSubArray = filterSubArray();
   //计算grid
   const gapPx = painter.getGapPx(canvasWidth, duration);
-  console.log(filteredSubArray, canvasWidth, begin, gapPx);
-
   return (
     <div
       id="subBlocksContainer"
@@ -170,7 +213,6 @@ const SubBlocks = ({ duration, begin, subArray, canvasWidth, onSubMove }) => {
 let init = -1;
 
 export default React.memo(SubBlocks, (preProps, nextProps) => {
-  console.log("subArray是否没有变化", preProps.subArray === nextProps.subArray);
   //如果前后字幕数组的内存地址变化 则渲染
   if (preProps.subArray !== nextProps.subArray) {
     return false;

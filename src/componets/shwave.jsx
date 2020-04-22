@@ -163,7 +163,7 @@ class ShWave extends Component {
   };
 
   render() {
-    const { currentTime, url, duration, subArray, onSubMove } = this.props;
+    const { currentTime, url, duration, subArray, onSubMove,onSubMoveError } = this.props;
     //当前canvas的起始时间
     const begin = painter.getBegin(currentTime, duration);
     return (
@@ -183,6 +183,7 @@ class ShWave extends Component {
           subArray={subArray}
           canvasWidth={this.state.canvasWidth}
           onSubMove={onSubMove}
+          onSubMoveError={onSubMoveError}
         />
         <WaveCanvas
           $canvas={this.$canvas}
