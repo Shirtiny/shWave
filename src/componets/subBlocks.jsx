@@ -24,7 +24,7 @@ const SubBlocks = ({
   canvasWidth,
   onSubMove,
   onSubMoveError,
-  onSubResize
+  onSubResize,
 }) => {
   //用于筛选数组
   const filterSubArray = useCallback(() => {
@@ -99,6 +99,25 @@ const SubBlocks = ({
     }
   }, []);
 
+  //判断移动的类型 dragLeft content dragRight 并返回是否在移动范围内
+  const jugeMoveRange = useCallback((translatePx) => {
+    if (currentSubBlock === null || currentMoveType === null) return;
+    //计算滑块是否出界
+    const left = currentSubBlock.offsetLeft + translatePx;
+    const right = currentSubBlock.offsetLeft + currentSubBlock.offsetWidth;
+    if (currentMoveType === "content") {
+      return (
+        left > currentLeftLimit + 1 &&
+        left + currentSubBlock.offsetWidth + 1 < currentRightLimit
+      );
+    } else if (currentMoveType === "dragLeft") {
+      // left > currentLeftLimit + 1 && (right < currentRightLimit - 1||left + currentSubBlock.offsetWidth + 1 < currentRightLimit)
+      return left > currentLeftLimit + 1 && currentSubBlock.offsetWidth > 5;
+    } else if (currentMoveType === "dragRight") {
+      return right < currentRightLimit - 1 && currentSubBlock.offsetWidth > 5;
+    }
+  }, []);
+
   //全局 当鼠标移动时
   const handleDocumentMouseMove = useCallback((e) => {
     if (currentSubBlock === null || currentMoveType === null) return;
@@ -112,15 +131,11 @@ const SubBlocks = ({
     handleSubBlockMove(e, translatePx);
     //移动drag
     handleSubDragMove(e, translatePx);
-    //滑块移动范围
-    const left = currentSubBlock.offsetLeft + translatePx;
-    if (
-      left > currentLeftLimit + 1 &&
-      left < currentRightLimit - currentSubBlock.offsetWidth - 1
-    ) {
+    //滑块移动范围判定
+    if (jugeMoveRange(translatePx)) {
       //待存移动距离赋值 （currentTranslatePx 在鼠标松开时会转为秒数保存
       currentTranslatePx = translatePx;
-      // 改颜色 默认背景
+      //默认背景
       currentSubBlock.children[1].style.backgroundColor = "";
     } else {
       //不在移动范围内
@@ -144,11 +159,12 @@ const SubBlocks = ({
     if (currentMoveType === "content") {
       onSubMove && onSubMove(currentOriginSub, currentTranslatePx / gapPx / 10);
     } else if (dragTypes.includes(currentMoveType)) {
-      onSubResize && onSubResize(
-        currentOriginSub,
-        currentTranslatePx / gapPx / 10,
-        currentMoveType === "dragLeft" ? "start" : "end"
-      );
+      onSubResize &&
+        onSubResize(
+          currentOriginSub,
+          currentTranslatePx / gapPx / 10,
+          currentMoveType === "dragLeft" ? "start" : "end"
+        );
     }
     //重置
     currentSubBlock = null;
@@ -230,7 +246,9 @@ const SubBlocks = ({
                 handleMouseDown(e, sub, "content");
               }}
             >
-              <p>{sub.content}</p>
+              {sub.content.split(/\r?\n/).map((line, index) => (
+                <p key={index}>{line}</p>
+              ))}
             </div>
             <div
               className="subBlockDrag"
