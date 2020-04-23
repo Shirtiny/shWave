@@ -1,6 +1,6 @@
 {
   "name": "shwave",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "main": "dist/shwave.min.js",
   "author": {
     "name": "Shirtiny",
@@ -11,6 +11,8 @@
     "react",
     "react library",
     "wave",
+    "audio",
+    "timeline",
     "js",
     "javaScript",
     "canvas",
