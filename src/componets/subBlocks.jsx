@@ -5,6 +5,10 @@ import painter from "../common/painter";
 
 //当前选择的subBlock
 let currentSubBlock = null;
+//drag的类型
+const dragTypes = ["dragLeft", "dragRight"];
+//类型 dragLeft content dragRight
+let currentMoveType = null;
 //当前平移的距离
 let currentTranslatePx = 0;
 //当前被选中的sub 原型
@@ -32,13 +36,14 @@ const SubBlocks = ({
   }, [duration, begin, subArray]);
 
   //当鼠标点下时 subContent
-  const handleMouseDown = useCallback((e, sub) => {
+  const handleMouseDown = useCallback((e, sub, type) => {
     const subBlock = e.currentTarget.parentElement;
     if (!subBlock) return;
     //赋值
     currentSubBlock = subBlock;
     currentTranslatePx = 0;
     currentOriginSub = sub;
+    currentMoveType = type;
     const movable = subBlock.getAttribute("submovable");
     //将可移动设为true
     subBlock.setAttribute("submovable", "true");
@@ -70,29 +75,55 @@ const SubBlocks = ({
     currentRightLimit = nextLimit;
   }, []);
 
+  //字幕块移动时
+  const handleSubBlockMove = useCallback((e, translatePx) => {
+    //只在鼠标点击content时使用
+    if (currentSubBlock === null || currentMoveType !== "content") return;
+    currentSubBlock.style.transform = `translate(${translatePx}px)`;
+  }, []);
+
+  //drag移动时 （handler）
+  const handleSubDragMove = useCallback((e, translatePx) => {
+    //只在鼠标点击drag时使用
+    if (currentSubBlock === null || !dragTypes.includes(currentMoveType))
+      return;
+    const width = parseFloat(currentSubBlock.getAttribute("subwidth"));
+    //右边的drag
+    if (currentMoveType === "dragRight") {
+      currentSubBlock.style.width = `${width + translatePx}px`;
+      //左边的drag
+    } else if (currentMoveType === "dragLeft") {
+      currentSubBlock.style.width = `${width - translatePx}px`;
+      currentSubBlock.style.transform = `translate(${translatePx}px)`;
+    }
+  }, []);
+
   //全局 当鼠标移动时
   const handleDocumentMouseMove = useCallback((e) => {
-    if (currentSubBlock === null) return;
+    if (currentSubBlock === null || currentMoveType === null) return;
     const movable = currentSubBlock.getAttribute("submovable");
     //起始坐标
     const startPageX = currentSubBlock.getAttribute("pagex");
     if (movable === "false" || !startPageX) return;
     //平移的距离
     const translatePx = e.pageX - startPageX;
-    currentSubBlock.style.transform = `translate(${translatePx}px)`;
+    //移动滑块
+    handleSubBlockMove(e, translatePx);
+    //移动drag
+    handleSubDragMove(e, translatePx);
     //滑块移动范围
     const left = currentSubBlock.offsetLeft + translatePx;
     if (
       left > currentLeftLimit + 1 &&
       left < currentRightLimit - currentSubBlock.offsetWidth - 1
     ) {
-      //移动距离赋值
+      //待存移动距离赋值 （currentTranslatePx 在鼠标松开时会转为秒数保存
       currentTranslatePx = translatePx;
-      // 改颜色
+      // 改颜色 默认背景
       currentSubBlock.children[1].style.backgroundColor = "";
     } else {
       //不在移动范围内
-      // 改颜色
+      // 改颜色 橘色警告
       currentSubBlock.children[1].style.backgroundColor = "#f09b50d9";
       //报错
       onSubMoveError && onSubMoveError();
@@ -101,14 +132,17 @@ const SubBlocks = ({
 
   //全局 鼠标松开时
   const handleDocumentMouseUp = useCallback((e) => {
-    if (currentSubBlock === null) return;
+    if (currentSubBlock === null || currentMoveType === null) return;
+    //属性恢复到默认值
     currentSubBlock.children[1].style.backgroundColor = "";
     currentSubBlock.setAttribute("pagex", "");
     currentSubBlock.setAttribute("submovable", "false");
     currentSubBlock.style.transform = ``;
     currentSubBlock.style.zIndex = "";
     //将数据交给接口函数
-    onSubMove(currentOriginSub, currentTranslatePx / gapPx / 10);
+    if (currentMoveType === "content") {
+      onSubMove(currentOriginSub, currentTranslatePx / gapPx / 10);
+    }
     //重置
     currentSubBlock = null;
     currentOriginSub = null;
@@ -164,6 +198,7 @@ const SubBlocks = ({
             // 自定义的属性
             submovable="false"
             pagex=""
+            subwidth={`${sub.length * gapPx * 10}`}
             style={{
               left: (sub.start - begin) * gapPx * 10,
               width: sub.length * gapPx * 10,
@@ -171,34 +206,34 @@ const SubBlocks = ({
           >
             <div
               className="subBlockDrag"
-              // 自定义的属性
-              subtype="dragLeft"
               style={{
                 left: `-${1.5 * gapPx}px`,
                 width: 1.5 * gapPx,
                 borderRadius: `${0.7 * gapPx}px 0 0 ${0.7 * gapPx}px`,
+              }}
+              onMouseDown={(e) => {
+                handleMouseDown(e, sub, "dragLeft");
               }}
             >
               <i className="fa fa-bars fa-rotate-90 subBlockDragIcon"></i>
             </div>
             <div
               className="subBlockContent"
-              // 自定义的属性
-              subtype="content"
               onMouseDown={(e) => {
-                handleMouseDown(e, sub);
+                handleMouseDown(e, sub, "content");
               }}
             >
               <p>{sub.content}</p>
             </div>
             <div
               className="subBlockDrag"
-              // 自定义的属性
-              subtype="dragRight"
               style={{
                 right: `-${1.5 * gapPx}px`,
                 width: 1.5 * gapPx,
                 borderRadius: `0 ${0.7 * gapPx}px ${0.7 * gapPx}px 0`,
+              }}
+              onMouseDown={(e) => {
+                handleMouseDown(e, sub, "dragRight");
               }}
             >
               <i className="fa fa-bars fa-rotate-90 subBlockDragIcon"></i>
@@ -214,7 +249,10 @@ let init = -1;
 
 export default React.memo(SubBlocks, (preProps, nextProps) => {
   //如果前后字幕数组的内存地址变化 或者canvas宽度发生变化 则渲染
-  if (preProps.subArray !== nextProps.subArray || preProps.canvasWidth !== nextProps.canvasWidth) {
+  if (
+    preProps.subArray !== nextProps.subArray ||
+    preProps.canvasWidth !== nextProps.canvasWidth
+  ) {
     return false;
   }
 
