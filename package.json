@@ -3,25 +3,33 @@
   "version": "1.6.2",
   "main": "dist/shwave.min.js",
   "author": {
-    "name": "Shirtiny"
+    "name": "Shirtiny",
+    "email": "shirtiny@gmail.com"
   },
   "license": "MIT",
-  "scripts": {
-    "build": "webpack --config webpack.dev.config.js",
-    "pro": "webpack --config webpack.product.config.js",
-    "start": "webpack-dev-server --config webpack.dev.config.js --open"
-  },
   "keywords": [
     "react",
     "react library",
     "wave",
     "js",
-    "canvas"
+    "javaScript",
+    "canvas",
+    "shwave",
+    "shirtiny"
   ],
-  "description": "wave audio",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Shirtiny/shWave"
+  },
+  "description": "wave audio and timeline",
   "files": [
     "dist"
   ],
+  "scripts": {
+    "build": "webpack --config webpack.dev.config.js",
+    "pro": "webpack --config webpack.product.config.js",
+    "start": "webpack-dev-server --config webpack.dev.config.js --open"
+  },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-class-properties": "^7.8.3",

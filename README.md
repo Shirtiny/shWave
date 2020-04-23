@@ -1,5 +1,51 @@
+# Introduction
+
+> subtitles timeline and wave audio 
+
+
+
+![](./example.png)
+
+Shwave is a subtitles timeline  to help people build subtitles  easily.
+
+![](./example2.png)
+
+It also support audio-only.
+
+
+
+## Usage
+
+`REACT`
+
+```jsx
+import { ShWave } from "shwave";
+
+<ShWave
+	duration={15}
+	backgroundColor={"#529393"}
+	currentTime={currentTime}
+	throttleWait={1}
+	url={videoUrl}
+	waveColor={"#fbf8f86b"}
+	alterWaveColor={"#57e3e3"}
+	waveScale={0.8}
+	click={onWaveClick}
+	contextmenu={onWaveContextmenu}
+	subArray={subArray}
+	onSubMove={onSubMove}
+	onSubMoveError={onSubMoveError}
+/>
+```
+
+
+
+## Example
+
+`REACT`
+
+```jsx
 import React, { Fragment, useState, useCallback } from "react";
-// import { hot } from "react-hot-loader/root";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import ShWave from "./componets/shwave";
@@ -134,5 +180,6 @@ const App = () => {
   );
 };
 
-// export default hot(App);
 export default App;
+```
+
