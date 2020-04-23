@@ -75,13 +75,27 @@ const App = () => {
   const handleSubMove = useCallback((originSub, translateSecond) => {
     const subs = [...subArray];
     const index = subs.indexOf(originSub);
-    const sub = subs[index];
+    const sub = { ...subs[index] };
     sub.start += translateSecond;
     sub.end += translateSecond;
+    subs[index] = sub;
     setSubArray(subs);
   });
 
-  const handleSubMoveError = useCallback(() => {
+  const handleSubMoveError = useCallback(() => {});
+
+  const handleSubResize = useCallback((originSub, translateSecond, type) => {
+    const subs = [...subArray];
+    const index = subs.indexOf(originSub);
+    const sub = { ...subs[index] };
+    if (type === "start") {
+      sub.start += translateSecond;
+    } else {
+      sub.end += translateSecond;
+    }
+    sub.length = sub.end - sub.start;
+    subs[index] = sub;
+    setSubArray(subs);
   });
 
   return (
@@ -128,6 +142,7 @@ const App = () => {
           subArray={subArray}
           onSubMove={handleSubMove}
           onSubMoveError={handleSubMoveError}
+          onSubResize={handleSubResize}
         />
       </div>
     </Fragment>

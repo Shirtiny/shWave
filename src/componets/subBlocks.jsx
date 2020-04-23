@@ -24,6 +24,7 @@ const SubBlocks = ({
   canvasWidth,
   onSubMove,
   onSubMoveError,
+  onSubResize
 }) => {
   //用于筛选数组
   const filterSubArray = useCallback(() => {
@@ -141,7 +142,13 @@ const SubBlocks = ({
     currentSubBlock.style.zIndex = "";
     //将数据交给接口函数
     if (currentMoveType === "content") {
-      onSubMove(currentOriginSub, currentTranslatePx / gapPx / 10);
+      onSubMove && onSubMove(currentOriginSub, currentTranslatePx / gapPx / 10);
+    } else if (dragTypes.includes(currentMoveType)) {
+      onSubResize && onSubResize(
+        currentOriginSub,
+        currentTranslatePx / gapPx / 10,
+        currentMoveType === "dragLeft" ? "start" : "end"
+      );
     }
     //重置
     currentSubBlock = null;
