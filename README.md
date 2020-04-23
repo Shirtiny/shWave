@@ -63,13 +63,17 @@ const App = () => {
       start: 0,
     },
     {
-      content: "content 2",
+      content: `content 2
+      content 2 2
+      content 2 4
+      content 2 e
+      content 2 e`,
       end: 6.999,
       length: 1.999,
       start: 5,
     },
     {
-      content: "content 3",
+      content: `sdddddddddddddddddddddddddddddddddddd`,
       end: 14.999,
       length: 4.999,
       start: 10,
@@ -121,13 +125,27 @@ const App = () => {
   const handleSubMove = useCallback((originSub, translateSecond) => {
     const subs = [...subArray];
     const index = subs.indexOf(originSub);
-    const sub = subs[index];
+    const sub = { ...subs[index] };
     sub.start += translateSecond;
     sub.end += translateSecond;
+    subs[index] = sub;
     setSubArray(subs);
   });
 
-  const handleSubMoveError = useCallback(() => {
+  const handleSubMoveError = useCallback(() => {});
+
+  const handleSubResize = useCallback((originSub, translateSecond, type) => {
+    const subs = [...subArray];
+    const index = subs.indexOf(originSub);
+    const sub = { ...subs[index] };
+    if (type === "start") {
+      sub.start += translateSecond;
+    } else {
+      sub.end += translateSecond;
+    }
+    sub.length = sub.end - sub.start;
+    subs[index] = sub;
+    setSubArray(subs);
   });
 
   return (
@@ -174,6 +192,7 @@ const App = () => {
           subArray={subArray}
           onSubMove={handleSubMove}
           onSubMoveError={handleSubMoveError}
+          onSubResize={handleSubResize}
         />
       </div>
     </Fragment>
