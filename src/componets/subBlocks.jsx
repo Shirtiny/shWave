@@ -25,6 +25,7 @@ const SubBlocks = ({
   onSubMove,
   onSubMoveError,
   onSubResize,
+  subBlockClass,
 }) => {
   //用于筛选数组
   const filterSubArray = useCallback(() => {
@@ -215,7 +216,7 @@ const SubBlocks = ({
       >
         {filteredSubArray.map((sub) => (
           <div
-            className="subBlock"
+            className={`subBlock ${subBlockClass ? subBlockClass : ""}`}
             // key为开始+结束+内容
             key={sub.start + "" + sub.end + sub.content}
             // 自定义的属性

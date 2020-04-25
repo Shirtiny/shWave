@@ -147,6 +147,7 @@ const App = () => {
           onSubMove={handleSubMove}
           onSubMoveError={handleSubMoveError}
           onSubResize={handleSubResize}
+          subBlockClass={"mySubBlockClass"}
         />
       </div>
     </Fragment>
