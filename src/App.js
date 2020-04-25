@@ -87,6 +87,7 @@ const App = () => {
     sub.start += translateSecond;
     sub.end += translateSecond;
     subs[index] = sub;
+    console.log("update subArray")
     setSubArray(subs);
   });
 
@@ -103,6 +104,7 @@ const App = () => {
     }
     sub.length = sub.end - sub.start;
     subs[index] = sub;
+    console.log("update subArray")
     setSubArray(subs);
   });
 

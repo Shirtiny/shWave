@@ -16,6 +16,8 @@ let currentOriginSub = null;
 //移动范围
 let currentLeftLimit = 0;
 let currentRightLimit = 0;
+//标识是否移动
+let currentIsMoved = false;
 
 const SubBlocks = ({
   duration,
@@ -137,6 +139,8 @@ const SubBlocks = ({
     if (jugeMoveRange(translatePx)) {
       //待存移动距离赋值 （currentTranslatePx 在鼠标松开时会转为秒数保存
       currentTranslatePx = translatePx;
+      //标识开始移动
+      currentIsMoved = true;
       //默认背景
       currentSubBlock.children[1].style.backgroundColor = "";
     } else {
@@ -157,10 +161,10 @@ const SubBlocks = ({
     currentSubBlock.setAttribute("submovable", "false");
     currentSubBlock.style.transform = ``;
     currentSubBlock.style.zIndex = "";
-    //将数据交给接口函数
-    if (currentMoveType === "content") {
+    //在有效移動時 将数据交给接口函数
+    if (currentIsMoved && currentMoveType === "content") {
       onSubMove && onSubMove(currentOriginSub, currentTranslatePx / gapPx / 10);
-    } else if (dragTypes.includes(currentMoveType)) {
+    } else if (currentIsMoved && dragTypes.includes(currentMoveType)) {
       onSubResize &&
         onSubResize(
           currentOriginSub,
@@ -174,6 +178,7 @@ const SubBlocks = ({
     currentTranslatePx = 0;
     currentLeftLimit = 0;
     currentRightLimit = 0;
+    currentIsMoved = false;
   });
 
   useEffect(() => {
