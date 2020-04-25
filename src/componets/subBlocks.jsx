@@ -22,6 +22,7 @@ const SubBlocks = ({
   begin,
   subArray,
   canvasWidth,
+  onSubClick,
   onSubMove,
   onSubMoveError,
   onSubResize,
@@ -245,6 +246,9 @@ const SubBlocks = ({
               className="subBlockContent"
               onMouseDown={(e) => {
                 handleMouseDown(e, sub, "content");
+              }}
+              onClick={(e) => {
+                onSubClick && onSubClick(sub);
               }}
             >
               {sub.content.split(/\r?\n/).map((line, index) => (

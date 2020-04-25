@@ -1,18 +1,14 @@
 # Introduction
 
-> subtitles timeline and wave audio 
-
-
+> subtitles timeline and wave audio
 
 ![](./example.png)
 
-Shwave is a subtitles timeline  to help people build subtitles  easily.
+Shwave is a subtitles timeline to help people build subtitles easily.
 
 ![](./example2.png)
 
 It also support audio-only.
-
-
 
 ## Usage
 
@@ -22,23 +18,21 @@ It also support audio-only.
 import { ShWave } from "shwave";
 
 <ShWave
-	duration={15}
-	backgroundColor={"#529393"}
-	currentTime={currentTime}
-	throttleWait={1}
-	url={videoUrl}
-	waveColor={"#fbf8f86b"}
-	alterWaveColor={"#57e3e3"}
-	waveScale={0.8}
-	click={onWaveClick}
-	contextmenu={onWaveContextmenu}
-	subArray={subArray}
-	onSubMove={onSubMove}
-	onSubMoveError={onSubMoveError}
-/>
+  duration={15}
+  backgroundColor={"#529393"}
+  currentTime={currentTime}
+  throttleWait={1}
+  url={videoUrl}
+  waveColor={"#fbf8f86b"}
+  alterWaveColor={"#57e3e3"}
+  waveScale={0.8}
+  click={onWaveClick}
+  contextmenu={onWaveContextmenu}
+  subArray={subArray}
+  onSubMove={onSubMove}
+  onSubMoveError={onSubMoveError}
+/>;
 ```
-
-
 
 ## Example
 
@@ -122,6 +116,10 @@ const App = () => {
     [player]
   );
 
+  const handleSubClick = useCallback((sub) => {
+    console.log(sub);
+  });
+
   const handleSubMove = useCallback((originSub, translateSecond) => {
     const subs = [...subArray];
     const index = subs.indexOf(originSub);
@@ -190,6 +188,7 @@ const App = () => {
           click={click}
           contextmenu={contextmenu}
           subArray={subArray}
+          onSubClick={handleSubClick}
           onSubMove={handleSubMove}
           onSubMoveError={handleSubMoveError}
           onSubResize={handleSubResize}
@@ -202,4 +201,3 @@ const App = () => {
 
 export default App;
 ```
-

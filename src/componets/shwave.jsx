@@ -168,6 +168,7 @@ class ShWave extends Component {
       url,
       duration,
       subArray,
+      onSubClick,
       onSubMove,
       onSubMoveError,
       onSubResize,
@@ -192,6 +193,7 @@ class ShWave extends Component {
             begin={begin}
             subArray={subArray}
             canvasWidth={this.state.canvasWidth}
+            onSubClick={onSubClick}
             onSubMove={onSubMove}
             onSubMoveError={onSubMoveError}
             onSubResize={onSubResize}

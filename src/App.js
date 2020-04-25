@@ -76,6 +76,10 @@ const App = () => {
     [player]
   );
 
+  const handleSubClick = useCallback((sub) => {
+    console.log(sub);
+  });
+
   const handleSubMove = useCallback((originSub, translateSecond) => {
     const subs = [...subArray];
     const index = subs.indexOf(originSub);
@@ -144,6 +148,7 @@ const App = () => {
           click={click}
           contextmenu={contextmenu}
           subArray={subArray}
+          onSubClick={handleSubClick}
           onSubMove={handleSubMove}
           onSubMoveError={handleSubMoveError}
           onSubResize={handleSubResize}
