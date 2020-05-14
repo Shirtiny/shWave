@@ -151,6 +151,7 @@ const App = () => {
 
    const handleDurationChange = useCallback((duration) => {
     setDuration(duration);
+    //pause the video
   });
 
   return (
@@ -182,7 +183,7 @@ const App = () => {
           max="30"
           step="1"
           onChange={(e) => {
-            handleDurationChange(e.currentTarget.value);
+            handleDurationChange(Number(e.currentTarget.value));
           }}
         />
       </div>

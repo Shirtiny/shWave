@@ -66,7 +66,7 @@ class ShWave extends Component {
   draw = () => {
     const { waveCanvas } = this.state;
     const {
-      duration,
+      duration: durationStr,
       backgroundColor,
       currentTime,
       pointerColor,
@@ -75,6 +75,8 @@ class ShWave extends Component {
       alterWaveColor,
       waveScale,
     } = this.props;
+    //duration如果为字符串形式的数字，会极大的浪费性能，所以这里保险起见转一下
+    const duration = Number(durationStr);
     //像素比
     const pixelRatio = window.devicePixelRatio;
     const ctx = waveCanvas && waveCanvas.getContext("2d");
@@ -172,7 +174,7 @@ class ShWave extends Component {
       onSubMoveError,
       ErrorThrottleWait,
       onSubResize,
-      subBlockClass
+      subBlockClass,
     } = this.props;
     //当前canvas的起始时间
     const begin = painter.getBegin(currentTime, duration);
