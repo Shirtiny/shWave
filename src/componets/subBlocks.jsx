@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import painter from "../common/painter";
+import common from "../common/common";
 
 //当前选择的subBlock
 let currentSubBlock = null;
@@ -27,9 +28,14 @@ const SubBlocks = ({
   onSubClick,
   onSubMove,
   onSubMoveError,
+  ErrorThrottleWait,
   onSubResize,
   subBlockClass,
 }) => {
+  //报错函数 节流
+  const onSubMoveErrorThrottle = common.throttle(() => {
+    onSubMoveError && onSubMoveError();
+  }, ErrorThrottleWait || 2000);
   //用于筛选数组
   const filterSubArray = useCallback(() => {
     const filtered = [...subArray].filter(
@@ -148,7 +154,7 @@ const SubBlocks = ({
       // 改颜色 橘色警告
       currentSubBlock.children[1].style.backgroundColor = "#f09b50d9";
       //报错
-      onSubMoveError && onSubMoveError();
+      onSubMoveErrorThrottle();
     }
   }, []);
 

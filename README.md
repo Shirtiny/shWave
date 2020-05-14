@@ -193,6 +193,7 @@ const App = () => {
           onSubClick={handleSubClick}
           onSubMove={handleSubMove}
           onSubMoveError={handleSubMoveError}
+          ErrorThrottleWait={2000}
           onSubResize={handleSubResize}
           subBlockClass={"mySubBlockClass"}
         />

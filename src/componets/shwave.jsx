@@ -171,6 +171,7 @@ class ShWave extends Component {
       onSubClick,
       onSubMove,
       onSubMoveError,
+      ErrorThrottleWait,
       onSubResize,
       subBlockClass
     } = this.props;
@@ -196,6 +197,7 @@ class ShWave extends Component {
             onSubClick={onSubClick}
             onSubMove={onSubMove}
             onSubMoveError={onSubMoveError}
+            ErrorThrottleWait={ErrorThrottleWait}
             onSubResize={onSubResize}
             subBlockClass={subBlockClass}
           />

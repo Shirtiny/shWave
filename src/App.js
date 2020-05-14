@@ -87,11 +87,13 @@ const App = () => {
     sub.start += translateSecond;
     sub.end += translateSecond;
     subs[index] = sub;
-    console.log("update subArray")
+    console.log("update subArray");
     setSubArray(subs);
   });
 
-  const handleSubMoveError = useCallback(() => {});
+  const handleSubMoveError = useCallback(() => {
+    console.log("警告");
+  });
 
   const handleSubResize = useCallback((originSub, translateSecond, type) => {
     const subs = [...subArray];
@@ -104,7 +106,7 @@ const App = () => {
     }
     sub.length = sub.end - sub.start;
     subs[index] = sub;
-    console.log("update subArray")
+    console.log("update subArray");
     setSubArray(subs);
   });
 
@@ -153,6 +155,7 @@ const App = () => {
           onSubClick={handleSubClick}
           onSubMove={handleSubMove}
           onSubMoveError={handleSubMoveError}
+          ErrorThrottleWait={2000}
           onSubResize={handleSubResize}
           subBlockClass={"mySubBlockClass"}
         />
