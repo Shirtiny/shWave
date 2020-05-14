@@ -35,7 +35,7 @@ const SubBlocks = ({
   //报错函数 节流
   const onSubMoveErrorThrottle = common.throttle(() => {
     onSubMoveError && onSubMoveError();
-  }, ErrorThrottleWait || 2000);
+  }, ErrorThrottleWait || 2000,{ 'trailing': false });
   //用于筛选数组
   const filterSubArray = useCallback(() => {
     const filtered = [...subArray].filter(

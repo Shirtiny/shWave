@@ -18,8 +18,8 @@ export function durationToTime(duration = 0) {
 }
 
 //节流函数
-export function throttle(fn, wait) {
-  return _.throttle(fn, wait);
+export function throttle(fn, wait, config = {}) {
+  return _.throttle(fn, wait, config);
 }
 
 //合并 比如：传入两个unit8数组
