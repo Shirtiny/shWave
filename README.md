@@ -48,6 +48,7 @@ import VideoPlayer from "./componets/videoPlayer";
 const App = () => {
   const [player, setPlayer] = useState(null);
   const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(15);
   const [url, setUrl] = useState("");
   const [subArray, setSubArray] = useState([
     {
@@ -148,6 +149,10 @@ const App = () => {
     setSubArray(subs);
   });
 
+   const handleDurationChange = useCallback((duration) => {
+    setDuration(duration);
+  });
+
   return (
     <Fragment>
       <div
@@ -169,6 +174,17 @@ const App = () => {
           name="file"
           onChange={handleVideoFile}
         />
+        <input
+          type="range"
+          title={duration}
+          value={duration}
+          min="5"
+          max="30"
+          step="1"
+          onChange={(e) => {
+            handleDurationChange(e.currentTarget.value);
+          }}
+        />
       </div>
       <div
         css={css`
@@ -177,7 +193,7 @@ const App = () => {
         `}
       >
         <ShWave
-          duration={15}
+          duration={duration}
           backgroundColor={"#529393"}
           pointerColor={"#ddd"}
           pointerWidth={3}

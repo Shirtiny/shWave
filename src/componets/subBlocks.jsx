@@ -33,9 +33,13 @@ const SubBlocks = ({
   subBlockClass,
 }) => {
   //报错函数 节流
-  const onSubMoveErrorThrottle = common.throttle(() => {
-    onSubMoveError && onSubMoveError();
-  }, ErrorThrottleWait || 2000,{ 'trailing': false });
+  const onSubMoveErrorThrottle = common.throttle(
+    () => {
+      onSubMoveError && onSubMoveError();
+    },
+    ErrorThrottleWait || 2000,
+    { trailing: false }
+  );
   //用于筛选数组
   const filterSubArray = useCallback(() => {
     const filtered = [...subArray].filter(
@@ -289,6 +293,10 @@ const SubBlocks = ({
 let init = -1;
 
 export default React.memo(SubBlocks, (preProps, nextProps) => {
+  //如果duration发生变化 则渲染
+  if (preProps.duration !== nextProps.duration) {
+    return false;
+  }
   //如果前后字幕数组的内存地址变化 或者canvas宽度发生变化 则渲染
   if (
     preProps.subArray !== nextProps.subArray ||

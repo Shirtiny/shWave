@@ -8,6 +8,7 @@ const WaveCanvas = ({
   waveCanvas,
   draw,
   currentTime,
+  duration,
   url,
   audioData,
   updateAudioData
@@ -16,7 +17,7 @@ const WaveCanvas = ({
     if (waveCanvas === null) return;
     //绘制
     draw();
-  }, [waveCanvas, currentTime,audioData]);
+  }, [waveCanvas,duration, currentTime,audioData]);
 
   return (
     <React.Fragment>

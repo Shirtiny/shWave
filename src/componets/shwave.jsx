@@ -27,7 +27,6 @@ class ShWave extends Component {
       this.setState({ waveCanvas }, () => {
         this.updateCanvas();
       });
-      const { click } = this.props;
       //设置resize窗口监听
       window.addEventListener("resize", this.onResize);
       //设置canvas点击监听
@@ -207,6 +206,7 @@ class ShWave extends Component {
           waveCanvas={this.state.waveCanvas}
           draw={this.draw}
           currentTime={currentTime}
+          duration={duration}
           url={url}
           audioData={this.state.audioData}
           updateAudioData={this.updateAudioData}
