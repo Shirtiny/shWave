@@ -22,6 +22,11 @@ export function throttle(fn, wait, config = {}) {
   return _.throttle(fn, wait, config);
 }
 
+//去抖函数
+export function debounce(fn, wait, config = {}) {
+  return _.debounce(fn, wait, config);
+}
+
 //合并 比如：传入两个unit8数组
 export function merge(...buffers) {
   //获取第一个unit数组的构造函数
@@ -49,6 +54,7 @@ export async function decodeMediaData(data) {
 export default {
   durationToTime,
   throttle,
+  debounce,
   merge,
   decodeMediaData,
 };

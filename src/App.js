@@ -157,11 +157,11 @@ const App = () => {
       >
         <ShWave
           duration={duration}
-          backgroundColor={"#529393"}
-          pointerColor={"#ddd"}
+          backgroundColor="#529393"
+          pointerColor="#ddd"
           pointerWidth={3}
-          waveColor={"#fbf8f86b"}
-          alterWaveColor={"#57e3e3"}
+          waveColor="#fbf8f86b"
+          alterWaveColor="#57e3e3"
           waveScale={0.8}
           currentTime={currentTime}
           throttleWait={300}
@@ -172,9 +172,10 @@ const App = () => {
           onSubClick={handleSubClick}
           onSubMove={handleSubMove}
           onSubMoveError={handleSubMoveError}
-          ErrorThrottleWait={2000}
+          ErrorWait={500}
+          ErrorColor="#f09b50d9"
           onSubResize={handleSubResize}
-          subBlockClass={"mySubBlockClass"}
+          subBlockClass="mySubBlockClass"
         />
       </div>
     </Fragment>

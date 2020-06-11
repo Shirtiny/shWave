@@ -28,17 +28,18 @@ const SubBlocks = ({
   onSubClick,
   onSubMove,
   onSubMoveError,
-  ErrorThrottleWait,
+  ErrorWait,
+  ErrorColor,
   onSubResize,
   subBlockClass,
 }) => {
   //报错函数 节流
-  const onSubMoveErrorThrottle = common.throttle(
+  const onSubMoveErrorThrottle = common.debounce(
     () => {
       onSubMoveError && onSubMoveError();
     },
-    ErrorThrottleWait || 2000,
-    { trailing: false }
+    ErrorWait || 500,
+    { leading: true, trailing: false }
   );
   //用于筛选数组
   const filterSubArray = useCallback(() => {
@@ -155,8 +156,8 @@ const SubBlocks = ({
       currentSubBlock.children[1].style.backgroundColor = "";
     } else {
       //不在移动范围内
-      // 改颜色 橘色警告
-      currentSubBlock.children[1].style.backgroundColor = "#f09b50d9";
+      // 改颜色 警告
+      currentSubBlock.children[1].style.backgroundColor = ErrorColor || "#f09b50d9";
       //报错
       onSubMoveErrorThrottle();
     }

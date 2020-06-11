@@ -100,6 +100,7 @@ class ShWave extends Component {
 
     const { sampleRate } = this.state.audioData;
     const channelData = this.state.audioData.getChannelData(0);
+    // console.log(sampleRate,channelData,this.state.audioData)
     painter.drawWave(
       waveCanvas,
       ctx,
@@ -172,7 +173,8 @@ class ShWave extends Component {
       onSubClick,
       onSubMove,
       onSubMoveError,
-      ErrorThrottleWait,
+      ErrorWait,
+      ErrorColor,
       onSubResize,
       subBlockClass,
     } = this.props;
@@ -198,7 +200,8 @@ class ShWave extends Component {
             onSubClick={onSubClick}
             onSubMove={onSubMove}
             onSubMoveError={onSubMoveError}
-            ErrorThrottleWait={ErrorThrottleWait}
+            ErrorWait={ErrorWait}
+            ErrorColor={ErrorColor}
             onSubResize={onSubResize}
             subBlockClass={subBlockClass}
           />
