@@ -34,15 +34,15 @@ function getBegin(currentTime, duration) {
 }
 
 //每0.1秒时间轴 对应的像素
-function getGapPx(canvasWidth,duration) {
+function getGapPx(canvasWidth, duration) {
   const pixelRatio = window.devicePixelRatio;
-    if (!canvasWidth) return 0;
-    const length = getLength(duration);
-    //gap : 每格间距多少像素 一格代表0.1s 也就是每0.1s多少px
-    const gap = getGap(canvasWidth, length);
-    //gap * 像素密度 兼容不同的分辨率得到合适的大小
-    const gapPx = gap * pixelRatio;
-    return gapPx;
+  if (!canvasWidth) return 0;
+  const length = getLength(duration);
+  //gap : 每格间距多少像素 一格代表0.1s 也就是每0.1s多少px 这里canvasWidth已经结算过pixelRatio了 所以要再除以pixelRatio
+  const gap = getGap(canvasWidth / pixelRatio, length);
+  //gap由widt得到 就是代表的时间像素 所以不用再乘像素比了
+  const gapPx = gap;
+  return gapPx;
 }
 
 /**
@@ -142,7 +142,7 @@ const drawWave = (
   waveScale = 0.8,
   progress = true,
   progressColor = "#57e3e3",
-  waveColor = "#fbf8f86b",
+  waveColor = "#fbf8f86b"
 ) => {
   const { width, height } = canvas;
   const begin = getBegin(currentTime, duration);
