@@ -116,10 +116,11 @@ export const drawPointer = (
   const { width, height } = canvas;
   ctx.fillStyle = color;
   const length = getLength(duration);
+  //gap由width得到 不用再使用pixelRatio计算像素了
   const gap = getGap(width, length);
   const begin = getBegin(currentTime, duration);
   ctx.fillRect(
-    Number((currentTime - begin) * pixelRatio * 10 * gap).toFixed(3),
+    Number((currentTime - begin) * 10 * gap).toFixed(3),
     0,
     pointerWidth * pixelRatio,
     height
