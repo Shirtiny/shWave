@@ -1,4 +1,10 @@
-# Introduction
+# ShWave
+
+![npm](https://img.shields.io/npm/v/shwave) ![NPM](https://img.shields.io/npm/l/shwave) ![npm](https://img.shields.io/npm/dt/shwave)
+
+[![NPM](https://nodei.co/npm/shwave.png)](https://nodei.co/npm/shwave/)
+
+## Introduction
 
 > subtitles timeline and wave audio
 
@@ -221,4 +227,11 @@ const App = () => {
 };
 
 export default App;
+```
+
+## build
+```shell
+yarn install
+# yarn start
+yarn pro
 ```
