@@ -20,6 +20,10 @@ It also support audio-only.
 
 `REACT`
 
+```shell
+npm i shwave -S
+```
+
 ```jsx
 import { ShWave } from "shwave";
 
@@ -230,8 +234,9 @@ export default App;
 ```
 
 ## build
+
 ```shell
-yarn install
+yarn
 # yarn start
 yarn pro
 ```
